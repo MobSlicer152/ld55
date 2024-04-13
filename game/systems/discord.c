@@ -8,16 +8,16 @@
 static bool connected;
 static DiscordUser user;
 
-static void Ready(CONST DiscordUser *NewUser)
+static void Ready(const DiscordUser *NewUser)
 {
     user = *NewUser;
-    connected = TRUE;
+    connected = true;
     LogDebug("Discord connected as %s (%s)", user.username, user.userId);
 }
 
-static void Disconnected(INT error, PCSTR message)
+static void Disconnected(s32 error, cstr message)
 {
-    connected = FALSE;
+    connected = false;
     memset(&user, 0, sizeof(DiscordUser));
 
     if (message && error != 0)
@@ -34,7 +34,7 @@ static const u64 friendIds[] = {570760243341033472, 802941540120789014, 69101772
                                 744607381991718913, 526963318867492865, 878017826558996570, 898953887988482068,
                                 751186390598811739, 700010638730330122, 887865846414868521, 551486661079334912,
                                 344253142952574989, 343862296751112192, 515919551444025407, 725427722293215332,
-                                464268944459563018};
+                                464268944459563018, 405454975750373376};
 
 static bool IsFriend(u64 Id)
 {
@@ -42,54 +42,55 @@ static bool IsFriend(u64 Id)
     {
         if (friendIds[i] == Id)
         {
-            return TRUE;
+            return true;
         }
     }
 
-    return FALSE;
+    return false;
 }
 
-static PCSTR GetGameString()
+static cstr GetGameString()
 {
     u64 userId = strtoll(user.userId ? user.userId : "", NULL, 10);
     switch (userId)
     {
     case 532320702611587112:
-        return "my game";
-    case 405454975750373376:
-        return "a game I helped my friend come up with";
+        return "my game ";
     case 1078816552629051423:
-        return "my brother's game";
+        return "my brother's game ";
     default:
         if (IsFriend(userId))
         {
-            return "my friend's game";
+            return "my friend's game ";
         }
         else
         {
-            return "the game"; // you just lost the game
+            return "";
         }
     }
 }
 
 static void DiscordUpdate(_In_ ecs_iter_t *iter)
 {
-    cstr rendererName =
-        SDL_GetProperty(SDL_GetRendererProperties(g_renderer), SDL_PROP_RENDERER_CREATE_NAME_STRING, "unknown");
+    SDL_RendererInfo rendererInfo = {0};
+    SDL_GetRendererInfo(g_renderer, &rendererInfo);
+
+    char state[128] = {0};
+    char details[128] = {0};
 
     DiscordRichPresence presence = {0};
+    presence.state = state;
 #ifdef GAME_DEBUG
-    presence.state = Format("Testing %s on %s", GetGameString(), SDL_GetPlatform());
+    snprintf(state, ARRAYSIZE(state), "Testing %s on %s", GetGameString(), SDL_GetPlatform());
 #else
-    presence.state = Format("Playing %s on %s", GetGameString(), SDL_GetPlatform());
+    snprintf(state, ARRAYSIZE(state), "Playing %son %s", GetGameString(), SDL_GetPlatform());
 #endif
-    presence.details = Format("v" GAME_VERSION_STRING " commit " GAME_COMMIT "-" GAME_BRANCH ", " GAME_BUILD_TYPE
-                              " build, %s renderer",
-                              rendererName);
-    Discord_UpdatePresence(&presence);
+    presence.details = details;
+    snprintf(details, ARRAYSIZE(details),
+             "v" GAME_VERSION_STRING " commit " GAME_COMMIT "-" GAME_BRANCH ", " GAME_BUILD_TYPE " build, %s renderer",
+             rendererInfo.name);
 
-    FREE((char *)presence.state);
-    FREE((char *)presence.details);
+    Discord_UpdatePresence(&presence);
 
     Discord_RunCallbacks();
 }

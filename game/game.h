@@ -29,8 +29,6 @@
 #define FREE SDL_free
 #endif
 
-#include "novaphysics/novaphysics.h"
-
 #define QOI_MALLOC MALLOC
 #define QOI_FREE FREE
 #define QOI_ZEROARR(a) SDL_memset((a), 0, sizeof(a))
@@ -53,3 +51,11 @@ typedef float f32;
 typedef double f64;
 typedef char *dstr;
 typedef const char *cstr;
+
+#ifdef __cplusplus
+#define BEGIN_EXTERN_C extern "C" {
+#define END_EXTERN_C }
+#else
+#define BEGIN_EXTERN_C
+#define END_EXTERN_C
+#endif

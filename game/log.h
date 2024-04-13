@@ -21,6 +21,10 @@
 #include <string.h>
 #include <time.h>
 
+#include "game.h"
+
+BEGIN_EXTERN_C
+
 #define LOG_USE_COLOR 1
 #define LOG_VERSION "0.1.0"
 
@@ -62,7 +66,7 @@ extern void LogSetLock(PFN_LOG_LOCK Lock, void *Data);
 
 extern void LogSetLevel(LOG_LEVEL Level);
 
-extern LOG_LEVEL LogGetLevel(VOID);
+extern LOG_LEVEL LogGetLevel(void);
 
 extern void LogSetQuiet(bool Quiet);
 
@@ -71,5 +75,7 @@ extern int LogAddCallback(PFN_LOG_LOG Callback, void *Data, LOG_LEVEL Level);
 extern int LogAddFile(FILE *File, LOG_LEVEL Level);
 
 extern void LogMessage(LOG_LEVEL Level, const char *File, uint64_t Line, bool HexLine, const char *Format, ...);
+
+END_EXTERN_C
 
 #endif

@@ -2,6 +2,8 @@
 
 #include "game.h"
 
+BEGIN_EXTERN_C
+
 typedef struct IMAGE
 {
     SDL_Texture *texture;
@@ -20,3 +22,5 @@ typedef struct SPRITE
 
 extern void LoadQoiImage(cstr path, PIMAGE image);
 extern void FreeQoiImage(PIMAGE image);
+
+END_EXTERN_C

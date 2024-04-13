@@ -22,6 +22,7 @@ add_defines("USE_MIMALLOC=1")
 
 add_repositories("local-repo xmake")
 add_requires(
+    "box2d",
     "flecs",
     "libsdl3",
     "mimalloc",
@@ -33,8 +34,7 @@ add_requires(
 add_includedirs(
     "$(scriptdir)",
     path.absolute(path.join("$(buildir)", "config")),
-    path.join("deps", "discord-rpc", "include"),
-    path.join("deps", "nova-physics", "include")
+    path.join("deps", "discord-rpc", "include")
 )
 
 target("discord")
@@ -57,23 +57,17 @@ target("discord")
     set_warnings("none")
 target_end()
 
-target("nova-physics")
-    set_kind("static")
-    add_headerfiles(path.join("deps", "nova-physics", "include", "**.h"))
-    add_files(path.join("deps", "nova-physics", "src", "**.c"))
-    set_warnings("none")
-target_end()
-
 target("game")
     set_kind("binary")
     add_headerfiles(path.join("game", "**.h*"))
-    add_files(path.join("game", "**.c"))
+    add_files(path.join("game", "**.c"), path.join("game", "**.cpp"))
 
     set_configdir(path.join("$(buildir)", "config"))
     add_configfiles("game/config.h.in")
 
-    add_deps("discord", "nova-physics")
+    add_deps("discord")
     add_packages(
+        "box2d",
         "flecs",
         "libsdl3",
         "mimalloc",

@@ -4,6 +4,8 @@
 
 #include "game/game.h"
 
+BEGIN_EXTERN_C
+
 extern SDL_Storage *g_storage;
 
 extern bool g_running;
@@ -20,10 +22,12 @@ extern struct INPUT_STATE g_input;
 
 extern SDL_Renderer *g_renderer;
 
-extern nvSpace *g_space;
+extern void *g_physicsWorld;
 
 extern struct IMAGE g_spriteSheet;
 
 extern ecs_world_t *g_world;
 
 extern ecs_entity_t g_player;
+
+END_EXTERN_C

@@ -2,6 +2,8 @@
 
 #include "game.h"
 
+BEGIN_EXTERN_C
+
 // winnt.h defines this as the same thing but can't leave that up to chance
 #undef ARRAYSIZE
 #define ARRAYSIZE(array) (sizeof(array) / sizeof(array[0]))
@@ -43,3 +45,5 @@ extern void *EcsMalloc(ecs_size_t size);
 extern void EcsFree(void *block);
 extern void *EcsRealloc(void *block, ecs_size_t size);
 extern void *EcsCalloc(ecs_size_t size);
+
+END_EXTERN_C

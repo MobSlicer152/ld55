@@ -13,7 +13,7 @@ INPUT_STATE g_input;
 
 SDL_Renderer *g_renderer;
 
-nvSpace *g_space;
+void *g_physicsWorld;
 
 IMAGE g_spriteSheet;
 

@@ -42,9 +42,10 @@ static void RenderDrawDynamicSprite(ecs_iter_t *iter)
 
     for (s32 i = 0; i < iter->count; i++)
     {
-        DrawSprite(&sprites[i],
-                   &(TRANSFORM){bodies[i].body->position.x * SPRITE_SIZE, bodies[i].body->position.y * SPRITE_SIZE,
-                                bodies[i].body->angle, 1.0f, 1.0f});
+        TRANSFORM transform = bodies[i].transform;
+        transform.x *= SPRITE_SIZE;
+        transform.y *= SPRITE_SIZE;
+        DrawSprite(&sprites[i], &transform);
     }
 }
 

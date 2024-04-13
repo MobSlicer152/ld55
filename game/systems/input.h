@@ -2,6 +2,8 @@
 
 #include "game/game.h"
 
+BEGIN_EXTERN_C
+
 typedef struct INPUT_STATE
 {
     const u8 *keyboard;
@@ -18,3 +20,5 @@ typedef struct INPUT_STATE
 } INPUT_STATE, *PINPUT_STATE;
 
 extern void InitializeInputSystem(void);
+
+END_EXTERN_C
