@@ -12,6 +12,7 @@ static void PhysicsUpdate(ecs_iter_t *iter)
 
 static void Shutdown(void)
 {
+    LogInfo("Shutting down physics system");
     nvSpace_free(g_space);
 }
 

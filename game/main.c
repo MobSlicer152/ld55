@@ -10,6 +10,7 @@
 #include "globals/prefabs.h"
 #include "globals/sprites.h"
 
+#include "systems/discord.h"
 #include "systems/physics.h"
 #include "systems/render.h"
 #include "systems/window.h"
@@ -34,11 +35,17 @@ s32 main(s32 argc, char *argv[])
     LogInfo("Creating world");
     g_world = ecs_init_w_args(argc, argv);
 
+#ifdef GAME_DEBUG
+    ECS_IMPORT(g_world, FlecsMonitor);
+    ecs_singleton_set(g_world, EcsRest, {0});
+#endif
+
     RegisterComponents();
 
     InitializeWindowSystem();
     InitializeRenderSystem();
     InitializePhysicsSystem();
+    InitializeDiscordSystem();
 
     LoadQoiImage("sprites.qoi", &g_spriteSheet);
 

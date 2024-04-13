@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "discord_rpc.h"
+
 #include "flecs.h"
 
 #include "SDL3/SDL.h"

@@ -24,8 +24,9 @@ static void WindowUpdate(ecs_iter_t *iter)
     }
 }
 
-static void WindowDestroy(void)
+static void Shutdown(void)
 {
+    LogInfo("Shutting down window system");
     SDL_DestroyRenderer(g_renderer);
     SDL_DestroyWindow(g_window);
 }
@@ -51,5 +52,5 @@ void InitializeWindowSystem(void)
 
     ECS_SYSTEM(g_world, WindowUpdate, EcsPreUpdate);
 
-    ecs_atfini(g_world, (ecs_fini_action_t)WindowDestroy, NULL);
+    ecs_atfini(g_world, (ecs_fini_action_t)Shutdown, NULL);
 }
