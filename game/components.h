@@ -20,4 +20,8 @@ extern ECS_COMPONENT_DECLARE(PHYSICS_BODY);
 
 extern ECS_COMPONENT_DECLARE(SPRITE);
 
+extern ECS_TAG_DECLARE(PLAYER);
+
+extern ECS_TAG_DECLARE(LEVEL);
+
 extern void RegisterComponents(void);

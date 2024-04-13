@@ -5,3 +5,4 @@
 #include "game/image.h"
 
 extern const SPRITE s_player;
+extern const SPRITE s_ground;

@@ -43,6 +43,8 @@ s32 main(s32 argc, char *argv[])
     LoadQoiImage("sprites.qoi", &g_spriteSheet);
 
     g_player = CreatePlayer();
+    
+    CreateLevel();
 
     f32 last;
     f32 now;
