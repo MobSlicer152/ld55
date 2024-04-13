@@ -2,6 +2,7 @@
 
 #include "game/globals/misc.h"
 
+#include "input.h"
 #include "window.h"
 
 static void WindowUpdate(ecs_iter_t *iter)
