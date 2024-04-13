@@ -1,5 +1,6 @@
-#include "globals.h"
-#include "image.h"
+#include "game/image.h"
+
+#include "misc.h"
 
 SDL_Storage *g_storage;
 

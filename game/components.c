@@ -1,5 +1,6 @@
+#include "globals/misc.h"
+
 #include "components.h"
-#include "globals.h"
 #include "image.h"
 
 ecs_entity_t ecs_id(TRANSFORM);

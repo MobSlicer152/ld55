@@ -1,7 +1,8 @@
 #include "game/components.h"
-#include "game/globals.h"
 #include "game/log.h"
 #include "game/image.h"
+
+#include "game/globals/misc.h"
 
 #include "render.h"
 

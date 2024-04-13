@@ -1,6 +1,7 @@
-#include "game/globals.h"
 #include "game/log.h"
 #include "game/util.h"
+
+#include "game/globals/misc.h"
 
 #include "physics.h"
 

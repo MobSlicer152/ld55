@@ -1,5 +1,6 @@
-#include "game/globals.h"
 #include "game/log.h"
+
+#include "game/globals/misc.h"
 
 #include "window.h"
 

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "game.h"
+#include "game/game.h"
 
 extern SDL_Storage *g_storage;
 

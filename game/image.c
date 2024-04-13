@@ -1,6 +1,7 @@
 #define QOI_IMPLEMENTATION
 
-#include "globals.h"
+#include "globals/misc.h"
+
 #include "image.h"
 #include "util.h"
 

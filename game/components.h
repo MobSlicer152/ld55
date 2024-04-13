@@ -14,7 +14,7 @@ extern ECS_COMPONENT_DECLARE(TRANSFORM);
 
 typedef struct PHYSICS_BODY
 {
-    nvBody* body;
+    nvBody *body;
 } PHYSICS_BODY, *PPHYSICS_BODY;
 extern ECS_COMPONENT_DECLARE(PHYSICS_BODY);
 
