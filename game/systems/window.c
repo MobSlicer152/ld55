@@ -33,7 +33,7 @@ void InitializeWindowSystem(void)
 {
     LogInfo("Initializing window system");
 
-    g_window = SDL_CreateWindow(GAME_NAME, 1024, 768, SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_RESIZABLE);
+    g_window = SDL_CreateWindow(GAME_NAME, 1024, 576, SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_RESIZABLE);
     if (!g_window)
     {
         Error("failed to create window: %s", SDL_GetError());
@@ -46,6 +46,7 @@ void InitializeWindowSystem(void)
     }
 
     SDL_SetRenderLogicalPresentation(g_renderer, GAME_WIDTH, GAME_HEIGHT, SDL_LOGICAL_PRESENTATION_STRETCH, SDL_SCALEMODE_NEAREST);
+    SDL_SetRenderDrawBlendMode(g_renderer, SDL_BLENDMODE_BLEND);
 
     ECS_SYSTEM(g_world, WindowUpdate, EcsPreUpdate);
 

@@ -35,6 +35,7 @@ s32 main(s32 argc, char *argv[])
 
     InitializeWindowSystem();
     InitializeRenderSystem();
+    InitializePhysicsSystem();
 
     LoadSpriteSheet("sprites.qoi", &g_spriteSheet);
 

@@ -11,8 +11,11 @@ extern ecs_world_t *g_world;
 extern bool g_running;
 
 extern SDL_Window *g_window;
-#define GAME_WIDTH 256
-#define GAME_HEIGHT 240
+
+// 32 sprites by 18 sprites, also scales good on most screens
+
+#define GAME_WIDTH 16 * 16 * 2
+#define GAME_HEIGHT 16 * 9 * 2
 
 extern SDL_Renderer *g_renderer;
 

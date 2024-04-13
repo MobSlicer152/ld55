@@ -25,11 +25,13 @@ void LoadSpriteSheet(cstr path, PSPRITE_SHEET spriteSheet)
 
     spriteSheet->width = desc.width;
     spriteSheet->height = desc.height;
-    spriteSheet->texture = SDL_CreateTexture(g_renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, spriteSheet->width, spriteSheet->height);
+    spriteSheet->texture = SDL_CreateTexture(g_renderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC, spriteSheet->width, spriteSheet->height);
     if (!spriteSheet->texture)
     {
         Error("failed to create %ux%u texture", spriteSheet->width, spriteSheet->height);
     }
 
-    SDL_UpdateTexture(spriteSheet->texture, NULL, image, desc.width * desc.channels);
+    SDL_UpdateTexture(spriteSheet->texture, NULL, image, spriteSheet->width * 4);
+    SDL_SetTextureScaleMode(spriteSheet->texture, SDL_SCALEMODE_NEAREST);
+    SDL_SetTextureBlendMode(spriteSheet->texture, SDL_BLENDMODE_BLEND);
 }
