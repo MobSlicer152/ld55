@@ -30,7 +30,7 @@ void CameraProject(PCSPRITE sprite, PCTRANSFORM transform, f32 *outX, f32 *outY,
 
     // make relative to camera
     f32 cameraX = (transform->x - g_camera.x) * SPRITE_SIZE - *outWidth / 2;
-    f32 cameraY = (transform->y - g_camera.y) * SPRITE_SIZE - *outHeight / 2;
+    f32 cameraY = (transform->y - g_camera.y) * SPRITE_SIZE + *outHeight / 2;
 
     // get top-left relative for screen
     // https://math.stackexchange.com/questions/1896656/how-do-i-convert-coordinates-from-bottom-left-as-0-0-to-middle-as-0-0
