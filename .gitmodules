@@ -1,0 +1,3 @@
+[submodule "deps/nova-physics"]
+	path = deps/nova-physics
+	url = https://github.com/kadir014/nova-physics

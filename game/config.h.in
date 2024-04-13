@@ -1,0 +1,22 @@
+#define GAME_NAME "Ludum Dare 55 game"
+#define GAME_EXECUTABLE_NAME "ld55"
+
+#define GAME_ORGANIZATION "MobSlicer152"
+
+#define GAME_MAKE_VERSION(Major, Minor, Patch, Build) ((Major) << 24 | (Minor) << 16 | (Patch) << 8 | (Build))
+#define GAME_MAKE_VERSION_STRING_(Major, Minor, Patch, Build) #Major "." #Minor "." #Patch "." #Build
+#define GAME_MAKE_VERSION_STRING(Major, Minor, Patch, Build) GAME_MAKE_VERSION_STRING_(Major, Minor, Patch, Build)
+#define GAME_MAKE_VERSION_STRING_RC_(Major, Minor, Patch, Build) #Major "," #Minor "," #Patch "," #Build
+#define GAME_MAKE_VERSION_STRING_RC(Major, Minor, Patch, Build) GAME_MAKE_VERSION_STRING_RC_(Major, Minor, Patch, Build)
+
+#define GAME_VERSION_MAJOR ${VERSION_MAJOR}
+#define GAME_VERSION_MINOR ${VERSION_MINOR}
+#define GAME_VERSION_PATCH ${VERSION_ALTER}
+#define GAME_VERSION_BUILD ${VERSION_BUILD}
+#define GAME_COMMIT "${GIT_COMMIT}"
+#define GAME_BRANCH "${GIT_BRANCH}"
+
+// Build version doesn't fit in a uint32
+#define GAME_VERSION GAME_MAKE_VERSION(GAME_VERSION_MAJOR, GAME_VERSION_MINOR, GAME_VERSION_PATCH, 0)
+#define GAME_VERSION_STRING GAME_MAKE_VERSION_STRING(GAME_VERSION_MAJOR, GAME_VERSION_MINOR, GAME_VERSION_PATCH, GAME_VERSION_BUILD)
+#define GAME_VERSION_STRING_RC GAME_MAKE_VERSION_STRING_RC(GAME_VERSION_MAJOR, GAME_VERSION_MINOR, GAME_VERSION_PATCH, GAME_VERSION_BUILD)
