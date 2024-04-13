@@ -14,7 +14,7 @@ static void PhysicsUpdate(ecs_iter_t *iter)
     WORLD->Step(iter->delta_system_time, 6, 2);
 }
 
-static void PhysicsUpdateBodyTransform(ecs_iter_t *iter)
+static void PhysicsUpdateBody(ecs_iter_t *iter)
 {
     PPHYSICS_BODY bodies = ecs_field(iter, PHYSICS_BODY, 1);
 
@@ -48,32 +48,56 @@ extern "C" void InitializePhysicsSystem(void)
     }
 
     ECS_SYSTEM_EX(g_world, PhysicsUpdate, EcsOnUpdate, true, PHYSICS_INTERVAL);
-    ECS_SYSTEM(g_world, PhysicsUpdateBodyTransform, EcsOnUpdate, PHYSICS_BODY);
+    ECS_SYSTEM(g_world, PhysicsUpdateBody, EcsOnUpdate, PHYSICS_BODY);
 
     ecs_atfini(g_world, (ecs_fini_action_t)Shutdown, NULL);
 }
 
-extern "C" void CreatePhysicsBody(PPHYSICS_BODY body, f32 x, f32 y, f32 zRotation, f32 width, f32 height,
-                                  PHYSICS_BODY_TYPE type, f32 mass, bool fixedRotation)
+static void AddCollider(b2Body *body, PCPHYSICS_COLLIDER_DESC collider)
+{
+    b2MassData massData;
+    massData.mass = collider->mass;
+
+    switch (collider->shape)
+    {
+    case PhysicsColliderShapeRect: {
+        b2PolygonShape rectShape;
+        rectShape.SetAsBox(collider->width / 2, collider->height / 2, b2Vec2(collider->x, collider->y), 0.0f);
+        // rectShape.ComputeMass(&massData, );
+        body->CreateFixture(&rectShape, collider->mass / collider->width * collider->height);
+        break;
+    }
+    case PhysicsColliderShapeCircle: {
+        b2CircleShape circleShape;
+        circleShape.m_radius = (collider->width + collider->height) / 4;
+        circleShape.m_p = b2Vec2(collider->x, collider->y);
+        // circleShape.ComputeMass(&massData, );
+        body->CreateFixture(&circleShape, collider->mass / PI * circleShape.m_radius * circleShape.m_radius);
+        break;
+    }
+    }
+}
+
+extern "C" void CreatePhysicsBody(PPHYSICS_BODY body, f32 x, f32 y, PHYSICS_BODY_TYPE type, bool allowRotation,
+                                  PCPHYSICS_COLLIDER_DESC colliders, u32 colliderCount)
 {
     b2BodyDef def;
     def.position.Set(x, y);
-    def.angle = zRotation;
     def.type = (b2BodyType)type;
-    def.fixedRotation = fixedRotation;
-    
-    body->body = WORLD->CreateBody(&def);
-    if (!body->body)
+    def.fixedRotation = !allowRotation;
+
+    b2Body *bodyReal = WORLD->CreateBody(&def);
+    if (!bodyReal)
     {
         Error("failed to create physics body");
     }
 
-    b2PolygonShape shape;
-    shape.SetAsBox(width / 2, height / 2);
-    b2MassData massData;
-    massData.mass = mass;
-    shape.ComputeMass(&massData, mass / width * height);
-    ((b2Body *)body->body)->CreateFixture(&shape, 1.0f);
+    for (u32 i = 0; i < colliderCount; i++)
+    {
+        AddCollider(bodyReal, &colliders[i]);
+    }
+
+    body->body = bodyReal;
 }
 
 extern "C" void ApplyForceToPhysicsBody(PCPHYSICS_BODY body, f32 xSpeed, f32 ySpeed)

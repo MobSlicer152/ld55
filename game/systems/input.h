@@ -2,12 +2,14 @@
 
 #include "game/game.h"
 
+#include "game/util.h"
+
 BEGIN_EXTERN_C
 
-typedef struct INPUT_STATE
+MAKETAG(struct, INPUT_STATE,
 {
     const u8 *keyboard;
-    
+
     f32 xAxis;
     f32 yAxis;
 
@@ -19,7 +21,7 @@ typedef struct INPUT_STATE
     f32 mouseY;
     f32 mouseDeltaX;
     f32 mouseDeltaY;
-} INPUT_STATE, *PINPUT_STATE;
+})
 
 extern void InitializeInputSystem(void);
 

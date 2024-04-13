@@ -6,6 +6,8 @@
 
 BEGIN_EXTERN_C
 
+#define PI 3.14159265359
+
 extern SDL_Storage *g_storage;
 
 extern bool g_running;

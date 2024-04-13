@@ -4,6 +4,9 @@
 
 BEGIN_EXTERN_C
 
+#define MAKETAG(type, name, ...) typedef type name __VA_ARGS__ name, *P##name; typedef type name const *PC##name;
+#define MAKECOMPONENT(name, ...) MAKETAG(struct, name, __VA_ARGS__) extern ECS_COMPONENT_DECLARE(name);
+
 // winnt.h defines this as the same thing but can't leave that up to chance
 #undef ARRAYSIZE
 #define ARRAYSIZE(array) (sizeof(array) / sizeof(array[0]))

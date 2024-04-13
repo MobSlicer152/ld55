@@ -25,8 +25,8 @@ void InitializeCameraSystem(void)
 void CameraProject(PCSPRITE sprite, PCTRANSFORM transform, f32 *outX, f32 *outY, f32 *outWidth, f32 *outHeight)
 {
     // make relative to camera
-    f32 x = (transform->x - g_camera.x) * SPRITE_SIZE;
-    f32 y = (transform->y - g_camera.y) * SPRITE_SIZE;
+    f32 x = (transform->x - g_camera.x) * SPRITE_SIZE - sprite->width / 2;
+    f32 y = (transform->y - g_camera.y) * SPRITE_SIZE - sprite->height / 2;
 
     // transform to top-left https://math.stackexchange.com/questions/1896656/how-do-i-convert-coordinates-from-bottom-left-as-0-0-to-middle-as-0-0
     *outX = x + GAME_WIDTH / 2;
