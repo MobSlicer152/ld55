@@ -24,17 +24,18 @@ void InitializeCameraSystem(void)
 
 void CameraProject(PCSPRITE sprite, PCTRANSFORM transform, f32 *outX, f32 *outY, f32 *outWidth, f32 *outHeight)
 {
-    // make relative to camera
-    f32 x = (transform->x - g_camera.x) * SPRITE_SIZE - sprite->width / 2;
-    f32 y = (transform->y - g_camera.y) * SPRITE_SIZE - sprite->height / 2;
-
-    // transform to top-left https://math.stackexchange.com/questions/1896656/how-do-i-convert-coordinates-from-bottom-left-as-0-0-to-middle-as-0-0
-    *outX = x + GAME_WIDTH / 2;
-    *outY = -y + GAME_HEIGHT / 2;
-
     // scale
-    *outWidth = sprite->width * transform->xScale;
-    *outHeight = sprite->height * transform->yScale;
+    *outWidth = sprite->width * SPRITE_SIZE * transform->xScale;
+    *outHeight = sprite->height * SPRITE_SIZE * transform->yScale;
+
+    // make relative to camera
+    f32 cameraX = (transform->x - g_camera.x) * SPRITE_SIZE - *outWidth / 2;
+    f32 cameraY = (transform->y - g_camera.y) * SPRITE_SIZE - *outHeight / 2;
+
+    // get top-left relative for screen
+    // https://math.stackexchange.com/questions/1896656/how-do-i-convert-coordinates-from-bottom-left-as-0-0-to-middle-as-0-0
+    *outX = cameraX + GAME_WIDTH / 2;
+    *outY = -cameraY + GAME_HEIGHT / 2;
 }
 
 bool CameraVisible(PCSPRITE sprite, PCTRANSFORM transform)

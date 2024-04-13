@@ -16,8 +16,8 @@ ecs_entity_t CreatePlayer(f32 x, f32 y)
 
     PHYSICS_COLLIDER_DESC mainCollider = {.x = 0.0f,
                                           .y = 0.0f,
-                                          .width = s_player.width / SPRITE_SIZE,
-                                          .height = s_player.height / SPRITE_SIZE,
+                                          .width = s_player.width,
+                                          .height = s_player.height,
                                           .mass = PLAYER_MASS,
                                           .shape = PhysicsColliderShapeRect,
                                           .allowCollision = true};
@@ -41,8 +41,8 @@ void CreateLevel(void)
         PHYSICS_BODY body = {0};                                                                                       \
         PHYSICS_COLLIDER_DESC desc = {                                                                                 \
             .zRotation = (rotation),                                                                                   \
-            .width = (f32)(sprite)->width / SPRITE_SIZE,                                                               \
-            .height = (f32)(sprite)->height / SPRITE_SIZE,                                                             \
+            .width = (sprite)->width,                                                                                  \
+            .height = (sprite)->height,                                                                                \
             .shape = PhysicsColliderShape##shape_,                                                                     \
             .allowCollision = true,                                                                                    \
         };                                                                                                             \

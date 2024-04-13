@@ -16,10 +16,10 @@ typedef struct IMAGE
 MAKECOMPONENT(SPRITE, 
 {
     PIMAGE sheet;
-    u16 xOffset;
-    u16 yOffset;
-    u16 width;
-    u16 height;
+    f32 xOffset;
+    f32 yOffset;
+    f32 width;
+    f32 height;
 })
 
 extern void LoadQoiImage(cstr path, PIMAGE image);

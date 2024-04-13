@@ -19,16 +19,17 @@ static void DrawSprite(PCSPRITE sprite, PCTRANSFORM transform, bool project)
 {
     if (!project || CameraVisible(sprite, transform))
     {
-        f32 x = project ? 0.0f : transform->x;
-        f32 y = project ? 0.0f : transform->y;
-        f32 width = project ? 0.0f : sprite->width * transform->xScale;
-        f32 height = project ? 0.0f : sprite->height * transform->yScale;
+        f32 width = project ? 0.0f : sprite->width * SPRITE_SIZE * transform->xScale;
+        f32 height = project ? 0.0f : sprite->height * SPRITE_SIZE * transform->yScale;
+        f32 x = project ? 0.0f : transform->x - width / 2;
+        f32 y = project ? 0.0f : transform->y - height / 2;
         if (project)
         {
             CameraProject(sprite, transform, &x, &y, &width, &height);
         }
 
-        SDL_FRect srcRect = {sprite->xOffset, sprite->yOffset, sprite->width, sprite->height};
+        SDL_FRect srcRect = {sprite->xOffset * SPRITE_SIZE, sprite->yOffset * SPRITE_SIZE, sprite->width * SPRITE_SIZE,
+                             sprite->height * SPRITE_SIZE};
         SDL_FRect destRect = {x, y, width, height};
 
         SDL_RenderTextureRotated(g_renderer, sprite->sheet->texture, &srcRect, &destRect, transform->zRotation, NULL,
@@ -61,9 +62,10 @@ static void RenderDrawDynamicSprite(ecs_iter_t *iter)
 
 static void RenderDrawCursor(ecs_iter_t *iter)
 {
-    DrawSprite(&s_cursor,
-               &(TRANSFORM){g_input.mouseX - SPRITE_SIZE / 2, g_input.mouseY - SPRITE_SIZE / 2, 0.0f, 1.0f, 1.0f},
-               false);
+    DrawSprite(
+        &s_cursor,
+        &(TRANSFORM){g_input.mouseX - s_cursor.width / 2, g_input.mouseY - s_cursor.height / 2, 0.0f, 1.0f, 1.0f},
+        false);
 }
 
 static void RenderEnd(ecs_iter_t *iter)

@@ -44,9 +44,9 @@ extern ecs_world_t *g_world;
 extern struct CAMERA g_camera;
 extern ecs_entity_t g_player;
 
-#define PLAYER_MASS 80.0f
-#define PLAYER_RUN_SPEED 10.0f
-#define PLAYER_DASH_FACTOR 2.0f
-#define PLAYER_JUMP_SPEED 30.0f
+#define PLAYER_MASS (80.0f)
+#define PLAYER_RUN_SPEED (10.0f)
+#define PLAYER_DASH_FACTOR (2.0f)
+#define PLAYER_JUMP_SPEED (30.0f)
 
 END_EXTERN_C
