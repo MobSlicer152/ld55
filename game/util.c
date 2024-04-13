@@ -2,6 +2,12 @@
 #include "log.h"
 #include "util.h"
 
+void OpenStorage(void)
+{
+    dstr path = Format("%s/assets", SDL_GetBasePath());
+    SDL_OpenFileStorage(path);
+}
+
 dstr Format(cstr message, ...)
 {
     va_list args;

@@ -17,6 +17,9 @@
 
 #include "novaphysics/novaphysics.h"
 
+#define QOI_MALLOC mi_malloc
+#define QOI_FREE mi_free
+#define QOI_NO_STDIO
 #include "qoi.h"
 
 #include "SDL3/SDL.h"

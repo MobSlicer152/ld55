@@ -6,6 +6,8 @@
 #undef ARRAYSIZE
 #define ARRAYSIZE(array) (sizeof(array) / sizeof(array[0]))
 
+extern void OpenStorage(void);
+
 extern dstr Format(cstr message, ...);
 extern dstr FormatVa(cstr message, va_list args);
 

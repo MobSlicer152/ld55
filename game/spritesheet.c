@@ -3,10 +3,12 @@
 #include "globals.h"
 #include "spritesheet.h"
 
-bool LoadSpriteSheet(cstr path, PSPRITE_SHEET spriteSheet)
+void LoadSpriteSheet(cstr path, PSPRITE_SHEET spriteSheet)
 {
     qoi_desc desc = {0};
-    void *data = qoi_read(path, &desc, 4);
+    void *data = ;
+    
+    void *image = qoi_decode(data, &desc, 4);
     if (!data)
     {
         Error("failed to read image %s", path);

@@ -9,5 +9,5 @@ typedef struct SPRITE_SHEET
     u32 height;
 } SPRITE_SHEET, *PSPRITE_SHEET;
 
-extern bool LoadSpriteSheet(cstr path, PSPRITE_SHEET spriteSheet);
+extern void LoadSpriteSheet(cstr path, PSPRITE_SHEET spriteSheet);
 extern void FreeSpriteSheet(PSPRITE_SHEET spriteSheet);
