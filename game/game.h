@@ -11,18 +11,29 @@
 
 #include "flecs.h"
 
+#include "SDL3/SDL.h"
+
 #if USE_MIMALLOC
 #include "mimalloc.h"
+
+#define MALLOC mi_malloc
+#define CALLOC mi_calloc
+#define REALLOC mi_realloc
+#define FREE mi_free
+#else
+#define MALLOC SDL_malloc
+#define CALLOC SDL_calloc
+#define REALLOC SDL_realloc
+#define FREE SDL_free
 #endif
 
 #include "novaphysics/novaphysics.h"
 
-#define QOI_MALLOC mi_malloc
-#define QOI_FREE mi_free
+#define QOI_MALLOC MALLOC
+#define QOI_FREE FREE
+#define QOI_ZEROARR(a) SDL_memset((a), 0, sizeof(a))
 #define QOI_NO_STDIO
 #include "qoi.h"
-
-#include "SDL3/SDL.h"
 
 typedef uint8_t u8;
 typedef uint16_t u16;

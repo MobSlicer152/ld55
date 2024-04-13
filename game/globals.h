@@ -11,8 +11,8 @@ extern ecs_world_t *g_world;
 extern bool g_running;
 
 extern SDL_Window *g_window;
-extern u32 g_width;
-extern u32 g_height;
+#define GAME_WIDTH 256
+#define GAME_HEIGHT 240
 
 extern SDL_Renderer *g_renderer;
 

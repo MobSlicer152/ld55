@@ -13,9 +13,7 @@ static void WindowUpdate(ecs_iter_t *iter)
         switch (event.type)
         {
         case SDL_EVENT_WINDOW_RESIZED:
-            LogInfo("Window resized from %ux%u to %ux%u", g_width, g_height, event.window.data1, event.window.data2);
-            g_width = event.window.data1;
-            g_height = event.window.data2;
+            LogInfo("Window resized from to %ux%u", event.window.data1, event.window.data2);
             break;
         case SDL_EVENT_QUIT:
             LogInfo("Quit requested");
@@ -35,9 +33,7 @@ void InitializeWindowSystem(void)
 {
     LogInfo("Initializing window system");
 
-    g_width = 1024;
-    g_height = 768;
-    g_window = SDL_CreateWindow(GAME_NAME, g_width, g_height, SDL_WINDOW_HIGH_PIXEL_DENSITY);
+    g_window = SDL_CreateWindow(GAME_NAME, 1024, 768, SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_RESIZABLE);
     if (!g_window)
     {
         Error("failed to create window: %s", SDL_GetError());
@@ -48,6 +44,8 @@ void InitializeWindowSystem(void)
     {
         Error("failed to create renderer: %s", SDL_GetError());
     }
+
+    SDL_SetRenderLogicalPresentation(g_renderer, GAME_WIDTH, GAME_HEIGHT, SDL_LOGICAL_PRESENTATION_STRETCH, SDL_SCALEMODE_NEAREST);
 
     ECS_SYSTEM(g_world, WindowUpdate, EcsPreUpdate);
 

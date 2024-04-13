@@ -1,7 +1,6 @@
 #include "game/globals.h"
 #include "game/log.h"
-
-#include "game/components/sprite.h"
+#include "game/spritesheet.h"
 
 #include "render.h"
 
@@ -14,7 +13,7 @@ static void RenderBegin(ecs_iter_t *iter)
 static void DrawSprite(PSPRITE sprite)
 {
     SDL_FRect srcRect = {sprite->xOffset, sprite->yOffset, sprite->width, sprite->height};
-    SDL_FRect destRect = {0.0f, 0.0f, 0.0f, 0.0f};
+    SDL_FRect destRect = {0.0f, 0.0f, sprite->width, sprite->height};
 
     SDL_RenderTextureRotated(g_renderer, sprite->sheet->texture, &srcRect, &destRect, 0.0, NULL, SDL_FLIP_NONE);
 }
@@ -39,6 +38,6 @@ void InitializeRenderSystem(void)
     LogInfo("Initializing render system");
 
     ECS_SYSTEM(g_world, RenderBegin, EcsPreFrame);
-    ECS_SYSTEM(g_world, RenderDrawSprite, EcsPostUpdate);
+    ECS_SYSTEM(g_world, RenderDrawSprite, EcsPostUpdate, SPRITE);
     ECS_SYSTEM(g_world, RenderEnd, EcsPostFrame);
 }

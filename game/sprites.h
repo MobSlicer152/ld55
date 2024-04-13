@@ -2,6 +2,6 @@
 
 #include "game.h"
 
-#include "components/sprite.h"
+#include "spritesheet.h"
 
-extern SPRITE s_player;
+extern const SPRITE s_player;
