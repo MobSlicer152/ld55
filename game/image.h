@@ -19,6 +19,7 @@ typedef struct SPRITE
     u16 width;
     u16 height;
 } SPRITE, *PSPRITE;
+typedef const struct SPRITE *PCSPRITE;
 
 extern void LoadQoiImage(cstr path, PIMAGE image);
 extern void FreeQoiImage(PIMAGE image);

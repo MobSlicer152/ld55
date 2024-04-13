@@ -12,6 +12,7 @@
 #include "systems/discord.h"
 #include "systems/input.h"
 #include "systems/physics.h"
+#include "systems/player.h"
 #include "systems/render.h"
 #include "systems/window.h"
 
@@ -46,6 +47,7 @@ s32 main(s32 argc, char *argv[])
     InitializeRenderSystem();
     InitializePhysicsSystem();
     InitializeInputSystem();
+    InitializePlayerSystem();
     InitializeDiscordSystem();
 
     LoadQoiImage("sprites.qoi", &g_spriteSheet);

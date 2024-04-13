@@ -21,6 +21,8 @@ static void PhysicsUpdateBodyTransform(ecs_iter_t *iter)
     for (s32 i = 0; i < iter->count; i++)
     {
         b2Body *body = (b2Body *)bodies[i].body;
+        bodies[i].xSpeed = body->GetLinearVelocity().x;
+        bodies[i].ySpeed = body->GetLinearVelocity().y;
         bodies[i].transform.x = body->GetPosition().x;
         bodies[i].transform.y = body->GetPosition().y;
         bodies[i].transform.zRotation = body->GetAngle();
@@ -39,7 +41,7 @@ extern "C" void InitializePhysicsSystem(void)
 {
     LogInfo("Initializing physics system");
 
-    g_physicsWorld = new b2World(b2Vec2(0.0f, 9.81f));
+    g_physicsWorld = new b2World(b2Vec2(0.0f, GRAVITY));
     if (!g_physicsWorld)
     {
         Error("failed to create physics world");
@@ -52,20 +54,29 @@ extern "C" void InitializePhysicsSystem(void)
 }
 
 extern "C" void CreatePhysicsBody(PPHYSICS_BODY body, f32 x, f32 y, f32 zRotation, f32 width, f32 height,
-                                  PHYSICS_BODY_TYPE type)
+                                  PHYSICS_BODY_TYPE type, f32 mass, bool fixedRotation)
 {
     b2BodyDef def;
-    def.position = b2Vec2(x, y);
+    def.position.Set(x, y);
     def.angle = zRotation;
     def.type = (b2BodyType)type;
-    def.gravityScale = 1.0f;
+    def.fixedRotation = fixedRotation;
+    
     body->body = WORLD->CreateBody(&def);
+    if (!body->body)
+    {
+        Error("failed to create physics body");
+    }
+
     b2PolygonShape shape;
     shape.SetAsBox(width / 2, height / 2);
-    ((b2Body *)body->body)->CreateFixture(&shape, type == PhysicsBodyTypeStatic ? 0.0f : 1.0f);
+    b2MassData massData;
+    massData.mass = mass;
+    shape.ComputeMass(&massData, mass / width * height);
+    ((b2Body *)body->body)->CreateFixture(&shape, 1.0f);
 }
 
-extern "C" void ApplyForceToPhysicsBody(PPHYSICS_BODY body, f32 xForce, f32 yForce, f32 pointX, f32 pointY)
+extern "C" void ApplyForceToPhysicsBody(PCPHYSICS_BODY body, f32 xForce, f32 yForce)
 {
-    ((b2Body *)body->body)->ApplyForce(b2Vec2(xForce, yForce), b2Vec2(pointX, pointY), true);
+    ((b2Body *)body->body)->ApplyForceToCenter(b2Vec2(xForce, yForce), true);
 }

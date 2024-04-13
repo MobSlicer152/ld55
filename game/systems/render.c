@@ -14,7 +14,7 @@ static void RenderBegin(ecs_iter_t *iter)
     SDL_RenderClear(g_renderer);
 }
 
-static void DrawSprite(PSPRITE sprite, PTRANSFORM transform)
+static void DrawSprite(PCSPRITE sprite, PCTRANSFORM transform)
 {
     SDL_FRect srcRect = {sprite->xOffset, sprite->yOffset, sprite->width, sprite->height};
     SDL_FRect destRect = {transform->x, transform->y, transform->xScale * sprite->width,
@@ -26,8 +26,8 @@ static void DrawSprite(PSPRITE sprite, PTRANSFORM transform)
 
 static void RenderDrawStaticSprite(ecs_iter_t *iter)
 {
-    PSPRITE sprites = ecs_field(iter, SPRITE, 1);
-    PTRANSFORM transforms = ecs_field(iter, TRANSFORM, 2);
+    PCSPRITE sprites = ecs_field(iter, SPRITE, 1);
+    PCTRANSFORM transforms = ecs_field(iter, TRANSFORM, 2);
 
     for (s32 i = 0; i < iter->count; i++)
     {
@@ -37,8 +37,8 @@ static void RenderDrawStaticSprite(ecs_iter_t *iter)
 
 static void RenderDrawDynamicSprite(ecs_iter_t *iter)
 {
-    PSPRITE sprites = ecs_field(iter, SPRITE, 1);
-    PPHYSICS_BODY bodies = ecs_field(iter, PHYSICS_BODY, 2);
+    PCSPRITE sprites = ecs_field(iter, SPRITE, 1);
+    PCPHYSICS_BODY bodies = ecs_field(iter, PHYSICS_BODY, 2);
 
     for (s32 i = 0; i < iter->count; i++)
     {

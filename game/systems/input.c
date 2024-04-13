@@ -12,7 +12,7 @@ static void InputDebug(ecs_iter_t *iter)
 
 static void InputUpdate(ecs_iter_t *iter)
 {
-    g_input.keyboard = SDL_GetKeyboardState(&g_input.keyboardSize);
+    g_input.keyboard = SDL_GetKeyboardState(NULL);
 
     float oldX = g_input.mouseX;
     float oldY = g_input.mouseY;
@@ -33,7 +33,7 @@ extern void InitializeInputSystem(void)
 
     SDL_SetRelativeMouseMode(true);
 
-    ECS_SYSTEM(g_world, InputUpdate, EcsOnUpdate);
+    ECS_SYSTEM(g_world, InputUpdate, EcsPreUpdate);
 #ifdef GAME_DEBUG
     ECS_SYSTEM(g_world, InputDebug, EcsOnUpdate);
 #endif

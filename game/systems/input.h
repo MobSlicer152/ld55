@@ -7,7 +7,6 @@ BEGIN_EXTERN_C
 typedef struct INPUT_STATE
 {
     const u8 *keyboard;
-    s32 keyboardSize;
 
     bool leftClick;
     bool middleClick;
