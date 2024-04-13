@@ -28,7 +28,8 @@ void CreateLevel(void)
         ecs_add(g_world, PART_##id, LEVEL);                                                                                                                 \
     }
 
-    PART(ground, &s_ground, 0, 272, 0, nvMaterial_CONCRETE, true);
+    PART(ground, &s_ground, 0, 272, 0, nvMaterial_BASIC, true);
+    PART(ground2, &s_ground, 256, 272, 0, nvMaterial_BASIC, true);
 
 #undef PART
 }

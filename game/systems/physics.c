@@ -21,6 +21,12 @@ void InitializePhysicsSystem(void)
     LogInfo("Initializing physics system");
 
     g_space = nvSpace_new();
+    if (!g_space)
+    {
+        Error("Failed to create physics space");
+    }
+
+    nvSpace_set_broadphase(g_space, nvBroadPhaseAlg_BVH);
 
     ECS_SYSTEM_EX(g_world, PhysicsUpdate, EcsOnUpdate, true, PHYSICS_INTERVAL);
 
