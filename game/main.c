@@ -9,6 +9,7 @@
 #include "globals/prefabs.h"
 #include "globals/sprites.h"
 
+#include "systems/camera.h"
 #include "systems/discord.h"
 #include "systems/input.h"
 #include "systems/physics.h"
@@ -48,6 +49,7 @@ s32 main(s32 argc, char *argv[])
     InitializePhysicsSystem();
     InitializeInputSystem();
     InitializePlayerSystem();
+    InitializeCameraSystem();
     InitializeDiscordSystem();
 
     LoadQoiImage("sprites.qoi", &g_spriteSheet);

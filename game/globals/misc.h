@@ -39,6 +39,7 @@ extern struct IMAGE g_spriteSheet;
 
 extern ecs_world_t *g_world;
 
+extern struct CAMERA g_camera;
 extern ecs_entity_t g_player;
 
 // Average person runs at 8 mph apparently, so 3.576 m/s

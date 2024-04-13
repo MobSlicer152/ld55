@@ -1,5 +1,6 @@
 #include "game/image.h"
 
+#include "game/systems/camera.h"
 #include "game/systems/input.h"
 
 #include "misc.h"
@@ -19,4 +20,5 @@ IMAGE g_spriteSheet;
 
 ecs_world_t *g_world;
 
+CAMERA g_camera;
 ecs_entity_t g_player;
