@@ -6,8 +6,6 @@
 
 extern SDL_Storage *g_storage;
 
-extern ecs_world_t *g_world;
-
 extern bool g_running;
 
 extern SDL_Window *g_window;
@@ -19,6 +17,10 @@ extern SDL_Window *g_window;
 
 extern SDL_Renderer *g_renderer;
 
-extern struct SPRITE_SHEET g_spriteSheet;
+extern nvSpace *g_space;
+
+extern struct IMAGE g_spriteSheet;
+
+extern ecs_world_t *g_world;
 
 extern ecs_entity_t g_player;

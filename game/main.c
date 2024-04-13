@@ -3,11 +3,12 @@
 #include "globals.h"
 #include "log.h"
 #include "sprites.h"
-#include "spritesheet.h"
+#include "image.h"
 #include "util.h"
 
 #include "components.h"
 
+#include "systems/physics.h"
 #include "systems/render.h"
 #include "systems/window.h"
 
@@ -37,7 +38,7 @@ s32 main(s32 argc, char *argv[])
     InitializeRenderSystem();
     InitializePhysicsSystem();
 
-    LoadSpriteSheet("sprites.qoi", &g_spriteSheet);
+    LoadQoiImage("sprites.qoi", &g_spriteSheet);
 
     f32 last;
     f32 now;
@@ -45,6 +46,9 @@ s32 main(s32 argc, char *argv[])
 
     g_player = ecs_new_entity(g_world, "player");
     ecs_set_ptr(g_world, g_player, SPRITE, &s_player);
+    PHYSICS_BODY body = {nvBody_new(nvBodyType_DYNAMIC, nvRectShape_new(s_player.width, s_player.height), NV_VEC2(0.0f, 0.0f), 0.0f, nvMaterial_BASIC)};
+    nvSpace_add(g_space, body.body);
+    ecs_set_ptr(g_world, g_player, PHYSICS_BODY, &body);
 
     g_running = true;
     last = SDL_GetTicks() / 1000.0f;
