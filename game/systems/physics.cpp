@@ -76,7 +76,18 @@ extern "C" void CreatePhysicsBody(PPHYSICS_BODY body, f32 x, f32 y, f32 zRotatio
     ((b2Body *)body->body)->CreateFixture(&shape, 1.0f);
 }
 
-extern "C" void ApplyForceToPhysicsBody(PCPHYSICS_BODY body, f32 xForce, f32 yForce)
+extern "C" void ApplyForceToPhysicsBody(PCPHYSICS_BODY body, f32 xSpeed, f32 ySpeed)
 {
-    ((b2Body *)body->body)->ApplyForceToCenter(b2Vec2(xForce, yForce), true);
+    ((b2Body *)body->body)->ApplyForceToCenter(b2Vec2(xSpeed, ySpeed), true);
+}
+
+extern "C" void GetPhysicsBodyVelocity(PCPHYSICS_BODY body, f32 *x, f32 *y)
+{
+    *x = ((b2Body *)body->body)->GetLinearVelocity().x;
+    *y = ((b2Body *)body->body)->GetLinearVelocity().y;
+}
+
+extern "C" void SetPhysicsBodyVelocity(PCPHYSICS_BODY body, f32 x, f32 y)
+{
+    ((b2Body *)body->body)->SetLinearVelocity(b2Vec2(x, y));
 }

@@ -53,9 +53,7 @@ s32 main(s32 argc, char *argv[])
     InitializeDiscordSystem();
 
     LoadQoiImage("sprites.qoi", &g_spriteSheet);
-
-    g_player = CreatePlayer();
-
+    
     CreateLevel();
 
     f32 last;

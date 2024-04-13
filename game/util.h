@@ -16,6 +16,8 @@ extern dstr FormatVa(cstr message, va_list args);
 
 extern void Error(cstr message, ...);
 
+extern f32 Lerp(f32 current, f32 target, f32 deltaTime);
+
 #define ECS_SYSTEM_DEFINE_EX(world, id_, phase, multi_threaded_, interval_, ...)                                       \
     {                                                                                                                  \
         ecs_system_desc_t desc = {0};                                                                                  \

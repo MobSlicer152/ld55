@@ -4,7 +4,7 @@
 
 BEGIN_EXTERN_C
 
-extern ecs_entity_t CreatePlayer(void);
+extern ecs_entity_t CreatePlayer(f32 x, f32 y);
 
 extern void CreateLevel(void);
 

@@ -14,6 +14,9 @@ static void InputUpdate(ecs_iter_t *iter)
 {
     g_input.keyboard = SDL_GetKeyboardState(NULL);
 
+    g_input.xAxis = g_input.keyboard[KEY_LEFT] ? -1.0f : 0.0f + g_input.keyboard[KEY_RIGHT] ? 1.0f : 0.0f;
+    g_input.yAxis = g_input.keyboard[KEY_JUMP] || g_input.keyboard[KEY_JUMP_ALT] ? 1.0f : 0.0f;
+
     float oldX = g_input.mouseX;
     float oldY = g_input.mouseY;
 
@@ -35,6 +38,6 @@ extern void InitializeInputSystem(void)
 
     ECS_SYSTEM(g_world, InputUpdate, EcsPreUpdate);
 #ifdef GAME_DEBUG
-    ECS_SYSTEM(g_world, InputDebug, EcsOnUpdate);
+    //ECS_SYSTEM(g_world, InputDebug, EcsOnUpdate);
 #endif
 }

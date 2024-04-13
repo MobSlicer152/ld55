@@ -92,6 +92,11 @@ void Error(cstr message, ...)
     abort();
 }
 
+f32 Lerp(f32 current, f32 target, f32 deltaTime)
+{
+    return current * (1.0f - deltaTime) + (target * deltaTime);
+}
+
 void EcsLog(s32 Level, cstr File, s32 Line, cstr Message)
 {
     LOG_LEVEL RealLevel;

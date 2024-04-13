@@ -11,29 +11,17 @@ static void HandlePlayerInput(ecs_iter_t *iter)
 {
     PCPHYSICS_BODY body = ecs_get(g_world, g_player, PHYSICS_BODY);
 
-    f32 xForce = 0.0f;
-    f32 yForce = 0.0f;
+    f32 xSpeed = 0.0f;
+    f32 ySpeed = 0.0f;
+    GetPhysicsBodyVelocity(body, &xSpeed, &ySpeed);
+    
+    f32 targetXSpeed = g_input.xAxis * PLAYER_RUN_SPEED;
+    f32 yImpulse = g_input.yAxis * PLAYER_JUMP_SPEED;
 
-    if (body->xSpeed > -PLAYER_RUN_SPEED && g_input.keyboard[KEY_LEFT])
-    {
-        xForce -= PLAYER_RUN_FORCE;
-    }
-    if (body->xSpeed < PLAYER_RUN_SPEED && g_input.keyboard[KEY_RIGHT])
-    {
-        xForce += PLAYER_RUN_FORCE;
-    }
+    xSpeed = Lerp(xSpeed, targetXSpeed, iter->delta_system_time);
 
-    if (g_input.keyboard[KEY_DASH])
-    {
-        xForce *= PLAYER_DASH_FACTOR;
-    }
-
-    if (g_input.keyboard[KEY_JUMP] || g_input.keyboard[KEY_JUMP_ALT])
-    {
-        yForce += PLAYER_JUMP_FORCE;
-    }
-
-    ApplyForceToPhysicsBody(body, xForce, yForce);
+    SetPhysicsBodyVelocity(body, xSpeed, ySpeed);
+    ApplyForceToPhysicsBody(body, 0.0f, yImpulse);
 }
 
 void InitializePlayerSystem(void)
