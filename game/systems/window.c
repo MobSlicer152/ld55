@@ -48,7 +48,8 @@ void InitializeWindowSystem(void)
         Error("failed to create renderer: %s", SDL_GetError());
     }
 
-    SDL_SetRenderLogicalPresentation(g_renderer, GAME_WIDTH, GAME_HEIGHT, SDL_LOGICAL_PRESENTATION_STRETCH, SDL_SCALEMODE_NEAREST);
+    SDL_SetRenderLogicalPresentation(g_renderer, GAME_WIDTH, GAME_HEIGHT, SDL_LOGICAL_PRESENTATION_STRETCH,
+                                     SDL_SCALEMODE_NEAREST);
     SDL_SetRenderDrawBlendMode(g_renderer, SDL_BLENDMODE_BLEND);
 
     ECS_SYSTEM(g_world, WindowUpdate, EcsPreUpdate);

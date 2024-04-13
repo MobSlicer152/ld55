@@ -1,9 +1,11 @@
 #include "game/components.h"
-#include "game/log.h"
 #include "game/image.h"
+#include "game/log.h"
 
 #include "game/globals/misc.h"
+#include "game/globals/sprites.h"
 
+#include "input.h"
 #include "render.h"
 
 static void RenderBegin(ecs_iter_t *iter)
@@ -15,9 +17,11 @@ static void RenderBegin(ecs_iter_t *iter)
 static void DrawSprite(PSPRITE sprite, PTRANSFORM transform)
 {
     SDL_FRect srcRect = {sprite->xOffset, sprite->yOffset, sprite->width, sprite->height};
-    SDL_FRect destRect = {transform->x, transform->y, transform->xScale * sprite->width, transform->yScale * sprite->height};
+    SDL_FRect destRect = {transform->x, transform->y, transform->xScale * sprite->width,
+                          transform->yScale * sprite->height};
 
-    SDL_RenderTextureRotated(g_renderer, sprite->sheet->texture, &srcRect, &destRect, transform->zRotation, NULL, SDL_FLIP_NONE);
+    SDL_RenderTextureRotated(g_renderer, sprite->sheet->texture, &srcRect, &destRect, transform->zRotation, NULL,
+                             SDL_FLIP_NONE);
 }
 
 static void RenderDrawStaticSprite(ecs_iter_t *iter)
@@ -38,8 +42,16 @@ static void RenderDrawDynamicSprite(ecs_iter_t *iter)
 
     for (s32 i = 0; i < iter->count; i++)
     {
-        DrawSprite(&sprites[i], &(TRANSFORM){bodies[i].body->position.x * 16, bodies[i].body->position.y * 16, bodies[i].body->angle, 1.0f, 1.0f});
+        DrawSprite(&sprites[i],
+                   &(TRANSFORM){bodies[i].body->position.x * SPRITE_SIZE, bodies[i].body->position.y * SPRITE_SIZE,
+                                bodies[i].body->angle, 1.0f, 1.0f});
     }
+}
+
+static void RenderDrawCursor(ecs_iter_t *iter)
+{
+    DrawSprite(&s_cursor,
+               &(TRANSFORM){g_input.mouseX - SPRITE_SIZE / 2, g_input.mouseY - SPRITE_SIZE / 2, 0.0f, 1.0f, 1.0f});
 }
 
 static void RenderEnd(ecs_iter_t *iter)
@@ -54,5 +66,6 @@ void InitializeRenderSystem(void)
     ECS_SYSTEM(g_world, RenderBegin, EcsPreFrame);
     ECS_SYSTEM(g_world, RenderDrawStaticSprite, EcsPostUpdate, SPRITE, TRANSFORM);
     ECS_SYSTEM(g_world, RenderDrawDynamicSprite, EcsPostUpdate, SPRITE, PHYSICS_BODY);
+    ECS_SYSTEM(g_world, RenderDrawCursor, EcsPostUpdate);
     ECS_SYSTEM(g_world, RenderEnd, EcsPostFrame);
 }

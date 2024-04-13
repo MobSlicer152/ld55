@@ -26,7 +26,8 @@ void InitializePhysicsSystem(void)
         Error("Failed to create physics space");
     }
 
-    nvSpace_set_broadphase(g_space, nvBroadPhaseAlg_BVH);
+    g_space->gravity = NV_VEC2(0, NV_GRAV_EARTH);
+    nvSpace_enable_multithreading(g_space, 0);
 
     ECS_SYSTEM_EX(g_world, PhysicsUpdate, EcsOnUpdate, true, PHYSICS_INTERVAL);
 

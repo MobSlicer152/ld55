@@ -74,7 +74,8 @@ static PCSTR GetGameString()
 
 static void DiscordUpdate(_In_ ecs_iter_t *iter)
 {
-    cstr rendererName = SDL_GetProperty(SDL_GetRendererProperties(g_renderer), SDL_PROP_RENDERER_CREATE_NAME_STRING, "unknown");
+    cstr rendererName =
+        SDL_GetProperty(SDL_GetRendererProperties(g_renderer), SDL_PROP_RENDERER_CREATE_NAME_STRING, "unknown");
 
     DiscordRichPresence presence = {0};
 #ifdef GAME_DEBUG
@@ -82,7 +83,9 @@ static void DiscordUpdate(_In_ ecs_iter_t *iter)
 #else
     presence.state = Format("Playing %s on %s", GetGameString(), SDL_GetPlatform());
 #endif
-    presence.details = Format("v" GAME_VERSION_STRING " commit " GAME_COMMIT "-" GAME_BRANCH ", " GAME_BUILD_TYPE " build, %s renderer", rendererName);
+    presence.details = Format("v" GAME_VERSION_STRING " commit " GAME_COMMIT "-" GAME_BRANCH ", " GAME_BUILD_TYPE
+                              " build, %s renderer",
+                              rendererName);
     Discord_UpdatePresence(&presence);
 
     FREE((char *)presence.state);

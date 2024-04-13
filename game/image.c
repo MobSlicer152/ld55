@@ -26,7 +26,8 @@ void LoadQoiImage(cstr path, PIMAGE image)
 
     image->width = desc.width;
     image->height = desc.height;
-    image->texture = SDL_CreateTexture(g_renderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC, image->width, image->height);
+    image->texture =
+        SDL_CreateTexture(g_renderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC, image->width, image->height);
     if (!image->texture)
     {
         Error("failed to create %ux%u texture", image->width, image->height);

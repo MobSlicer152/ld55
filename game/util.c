@@ -1,6 +1,6 @@
+#include "util.h"
 #include "globals/misc.h"
 #include "log.h"
-#include "util.h"
 
 void OpenStorage(void)
 {
@@ -28,7 +28,7 @@ u8 *Read(cstr path, u64 *size)
     {
         Error("failed to read file %s or it was empty: %s", path, SDL_GetError());
     }
-    
+
     u8 *data = CALLOC(1, *size);
     if (!data)
     {
@@ -74,7 +74,7 @@ dstr FormatVa(cstr message, va_list args)
 
     vsnprintf(buffer, size, message, copiedArgs);
     va_end(copiedArgs);
-    
+
     return buffer;
 }
 
@@ -146,4 +146,3 @@ void *EcsCalloc(ecs_size_t size)
 {
     return CALLOC(1, size);
 }
-

@@ -1,10 +1,9 @@
 #include "game.h"
 
 #include "components.h"
-#include "log.h"
 #include "image.h"
+#include "log.h"
 #include "util.h"
-
 
 #include "globals/misc.h"
 #include "globals/prefabs.h"
@@ -52,7 +51,7 @@ s32 main(s32 argc, char *argv[])
     LoadQoiImage("sprites.qoi", &g_spriteSheet);
 
     g_player = CreatePlayer();
-    
+
     CreateLevel();
 
     f32 last;

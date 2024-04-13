@@ -54,8 +54,8 @@ static void StdoutCallback(LOG_EVENT *Event)
     char Buffer[64] = {0};
     Buffer[strftime(Buffer, sizeof(Buffer), "%H:%M:%S", Event->Time)] = '\0';
 #ifdef LOG_USE_COLOR
-    fprintf(Event->Data, "%s \x1b[0m %s%-5s\x1b[0m \x1b[90m%s:", Buffer,
-            LevelColours[Event->Level], LevelStrings[Event->Level], Event->File);
+    fprintf(Event->Data, "%s \x1b[0m %s%-5s\x1b[0m \x1b[90m%s:", Buffer, LevelColours[Event->Level],
+            LevelStrings[Event->Level], Event->File);
     if (Event->HexLine)
         fprintf(Event->Data, "0x%llX:\x1b[0m ", (uint64_t)Event->Line);
     else
@@ -100,11 +100,11 @@ Return Value:
 
     vsnprintf(Message, sizeof(Message), Event->Format, Event->ArgList);
     if (Event->HexLine)
-        snprintf(All, sizeof(All), "%s %-5s %s:0x%llX: %s\n", Time,
-                 LogGetLevelString(Event->Level), Event->File, (uint64_t)Event->Line, Message);
+        snprintf(All, sizeof(All), "%s %-5s %s:0x%llX: %s\n", Time, LogGetLevelString(Event->Level), Event->File,
+                 (uint64_t)Event->Line, Message);
     else
-        snprintf(All, sizeof(All), "%s %-5s %s:%lld: %s\n", Time,
-                 LogGetLevelString(Event->Level), Event->File, (int64_t)Event->Line, Message);
+        snprintf(All, sizeof(All), "%s %-5s %s:%lld: %s\n", Time, LogGetLevelString(Event->Level), Event->File,
+                 (int64_t)Event->Line, Message);
 
     OutputDebugStringA(All);
 }

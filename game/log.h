@@ -15,8 +15,8 @@
 #define LOG_H
 
 #include <stdarg.h>
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -49,18 +49,12 @@ typedef struct LOG_EVENT
 typedef void (*PFN_LOG_LOG)(LOG_EVENT *Event);
 typedef void (*PFN_LOG_LOCK)(bool Lock, void *Data);
 
-#define LogTrace(...) \
-    LogMessage(LogLevelTrace, __FILE__, __LINE__, false, __VA_ARGS__)
-#define LogDebug(...) \
-    LogMessage(LogLevelDebug, __FILE__, __LINE__, false, __VA_ARGS__)
-#define LogInfo(...) \
-    LogMessage(LogLevelInfo, __FILE__, __LINE__, false, __VA_ARGS__)
-#define LogWarning(...) \
-    LogMessage(LogLevelWarning, __FILE__, __LINE__, false, __VA_ARGS__)
-#define LogError(...) \
-    LogMessage(LogLevelError, __FILE__, __LINE__, false, __VA_ARGS__)
-#define LogFatal(...) \
-    LogMessage(LogLevelFatal, __FILE__, __LINE__, false, __VA_ARGS__)
+#define LogTrace(...) LogMessage(LogLevelTrace, __FILE__, __LINE__, false, __VA_ARGS__)
+#define LogDebug(...) LogMessage(LogLevelDebug, __FILE__, __LINE__, false, __VA_ARGS__)
+#define LogInfo(...) LogMessage(LogLevelInfo, __FILE__, __LINE__, false, __VA_ARGS__)
+#define LogWarning(...) LogMessage(LogLevelWarning, __FILE__, __LINE__, false, __VA_ARGS__)
+#define LogError(...) LogMessage(LogLevelError, __FILE__, __LINE__, false, __VA_ARGS__)
+#define LogFatal(...) LogMessage(LogLevelFatal, __FILE__, __LINE__, false, __VA_ARGS__)
 
 extern const char *LogGetLevelString(LOG_LEVEL Level);
 
@@ -76,7 +70,6 @@ extern int LogAddCallback(PFN_LOG_LOG Callback, void *Data, LOG_LEVEL Level);
 
 extern int LogAddFile(FILE *File, LOG_LEVEL Level);
 
-extern void LogMessage(LOG_LEVEL Level, const char *File, uint64_t Line,
-                       bool HexLine, const char *Format, ...);
+extern void LogMessage(LOG_LEVEL Level, const char *File, uint64_t Line, bool HexLine, const char *Format, ...);
 
 #endif

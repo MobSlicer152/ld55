@@ -9,7 +9,9 @@ ecs_entity_t ecs_id(PHYSICS_BODY);
 
 ecs_entity_t ecs_id(SPRITE);
 
-#define MAKE_TAG(id) ecs_entity_t ecs_id(id); ecs_entity_t id;
+#define MAKE_TAG(id)                                                                                                   \
+    ecs_entity_t ecs_id(id);                                                                                           \
+    ecs_entity_t id;
 
 MAKE_TAG(PLAYER);
 

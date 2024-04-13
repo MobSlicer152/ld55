@@ -6,7 +6,8 @@
 
 static void InputDebug(ecs_iter_t *iter)
 {
-    printf("\rleft %u middle %u right %u x %f y %f dx %f dy %f", g_input.leftClick, g_input.middleClick, g_input.rightClick, g_input.mouseX, g_input.mouseY, g_input.mouseDeltaX, g_input.mouseDeltaY);
+    printf("\rleft %u middle %u right %u x %f y %f dx %f dy %f", g_input.leftClick, g_input.middleClick,
+           g_input.rightClick, g_input.mouseX, g_input.mouseY, g_input.mouseDeltaX, g_input.mouseDeltaY);
 }
 
 static void InputUpdate(ecs_iter_t *iter)
