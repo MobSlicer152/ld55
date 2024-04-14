@@ -49,11 +49,7 @@ class CPhysicsDebugDraw : public b2Draw
 {
     SDL_FPoint *ConvertAndProjectVertices(const b2Vec2 *inputVertices, s32 count, const b2Color &color)
     {
-        SDL_FPoint *vertices = (SDL_FPoint *)CALLOC(count, sizeof(SDL_FPoint));
-        if (!vertices)
-        {
-            Error("failed to convert debug draw vertices");
-        }
+        static SDL_FPoint vertices[6];
 
         for (s32 i = 0; i < count; i++)
         {
@@ -77,7 +73,6 @@ class CPhysicsDebugDraw : public b2Draw
         SDL_FPoint *convertedVertices = ConvertAndProjectVertices(vertices, vertexCount, color);
         SDL_SetRenderDrawColorFloat(g_renderer, color.r, color.g, color.b, color.a);
         SDL_RenderLines(g_renderer, (SDL_FPoint *)convertedVertices, vertexCount);
-        FREE(convertedVertices);
     }
 
     void DrawSolidPolygon(const b2Vec2 *vertices, s32 vertexCount, const b2Color &color) override

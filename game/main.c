@@ -1,5 +1,7 @@
 #include "game.h"
 
+#include "SDL_main.h"
+
 #include "components.h"
 #include "image.h"
 #include "log.h"
@@ -17,10 +19,12 @@
 #include "systems/render.h"
 #include "systems/window.h"
 
-s32 main(s32 argc, char *argv[])
+s32 SDL_main(s32 argc, char *argv[])
 {
 #ifdef GAME_DEBUG
     LogSetLevel(LogLevelDebug);
+#else
+    LogSetLevel(LogLevelInfo);
 #endif
 
     OpenStorage();
@@ -53,7 +57,7 @@ s32 main(s32 argc, char *argv[])
     InitializeDiscordSystem();
 
     LoadQoiImage("sprites.qoi", &g_spriteSheet);
-    
+
     CreateLevel();
 
     f32 last;
@@ -74,4 +78,6 @@ s32 main(s32 argc, char *argv[])
 
     LogInfo("Destroying world");
     ecs_fini(g_world);
+
+    return 0;
 }
