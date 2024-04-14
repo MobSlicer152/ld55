@@ -15,7 +15,9 @@ static void WindowUpdate(ecs_iter_t *iter)
         switch (event.type)
         {
         case SDL_EVENT_WINDOW_RESIZED:
-            LogInfo("Window resized from to %ux%u", event.window.data1, event.window.data2);
+            LogInfo("Window resized from %ux%u to %ux%u", g_width, g_height, event.window.data1, event.window.data2);
+            g_width = event.window.data1;
+            g_height = event.window.data2;
             break;
         case SDL_EVENT_QUIT:
             LogInfo("Quit requested");
@@ -36,7 +38,7 @@ void InitializeWindowSystem(void)
 {
     LogInfo("Initializing window system");
 
-    g_window = SDL_CreateWindow(GAME_NAME, 1024, 576, SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_RESIZABLE);
+    g_window = SDL_CreateWindow(GAME_NAME " | Press ESC to quit", 1024, 576, SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_RESIZABLE);
     if (!g_window)
     {
         Error("failed to create window: %s", SDL_GetError());

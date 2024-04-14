@@ -6,18 +6,29 @@
 
 BEGIN_EXTERN_C
 
-typedef struct IMAGE
-{
+MAKETAG(struct, IMAGE, {
     SDL_Texture *texture;
     u32 width;
     u32 height;
-} IMAGE, *PIMAGE;
+})
 
-MAKECOMPONENT(SPRITE, 
-{
+MAKETAG(struct, SPRITE_OFFSET, {
+    f32 x;
+    f32 y;
+})
+
+MAKECOMPONENT(struct, SPRITE, {
     PIMAGE sheet;
-    f32 xOffset;
-    f32 yOffset;
+    SPRITE_OFFSET offset;
+    f32 width;
+    f32 height;
+})
+
+MAKETAG(struct, ANIMATED_SPRITE, {
+    PIMAGE sheet;
+    f32 frameTime;
+    u32 frameCount;
+    PCSPRITE_OFFSET frames;
     f32 width;
     f32 height;
 })

@@ -92,6 +92,18 @@ void Error(cstr message, ...)
     abort();
 }
 
+f32 Magnitude(f32 x, f32 y)
+{
+    return sqrt(x * x + y * y);
+}
+
+void Normalize(f32 *x, f32 *y)
+{
+    f32 magnitude = Magnitude(*x, *y);
+    *x /= magnitude;
+    *y /= magnitude;
+}
+
 f32 Lerp(f32 current, f32 target, f32 deltaTime)
 {
     return current * (1.0f - deltaTime) + (target * deltaTime);

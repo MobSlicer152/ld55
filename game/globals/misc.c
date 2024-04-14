@@ -10,6 +10,8 @@ SDL_Storage *g_storage;
 bool g_running;
 
 SDL_Window *g_window;
+u32 g_width;
+u32 g_height;
 INPUT_STATE g_input;
 
 SDL_Renderer *g_renderer;

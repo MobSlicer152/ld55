@@ -11,6 +11,7 @@
 #include "globals/prefabs.h"
 #include "globals/sprites.h"
 
+#include "systems/animation.h"
 #include "systems/camera.h"
 #include "systems/discord.h"
 #include "systems/input.h"
@@ -50,6 +51,7 @@ s32 SDL_main(s32 argc, char *argv[])
 
     InitializeWindowSystem();
     InitializeRenderSystem();
+    InitializeAnimationSystem();
     InitializePhysicsSystem();
     InitializeInputSystem();
     InitializePlayerSystem();

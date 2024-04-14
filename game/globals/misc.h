@@ -15,16 +15,9 @@ extern SDL_Storage *g_storage;
 extern bool g_running;
 
 extern SDL_Window *g_window;
+extern u32 g_width; // only needed for mouse position
+extern u32 g_height;
 extern struct INPUT_STATE g_input;
-
-#define KEY_LEFT SDL_SCANCODE_A
-#define KEY_RIGHT SDL_SCANCODE_D
-#define KEY_JUMP SDL_SCANCODE_SPACE
-#define KEY_JUMP_ALT SDL_SCANCODE_W
-#define KEY_DASH SDL_SCANCODE_LSHIFT
-#define KEY_CROUCH SDL_SCANCODE_LCTRL
-#define KEY_CROUCH_ALT SDL_SCANCODE_S
-#define KEY_MELEE SDL_SCANCODE_V
 
 // 32 sprites by 18 sprites, also scales good on most screens because 16:9
 
@@ -45,10 +38,5 @@ extern ecs_world_t *g_world;
 
 extern struct CAMERA g_camera;
 extern ecs_entity_t g_player;
-
-#define PLAYER_MASS (80.0f)
-#define PLAYER_RUN_SPEED (10.0f)
-#define PLAYER_DASH_FACTOR (2.0f)
-#define PLAYER_JUMP_SPEED (30.0f)
 
 END_EXTERN_C

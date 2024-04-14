@@ -2,6 +2,7 @@
 
 #include "game/globals/misc.h"
 
+#include "camera.h"
 #include "input.h"
 
 static void InputDebug(ecs_iter_t *iter)
@@ -14,8 +15,8 @@ static void InputUpdate(ecs_iter_t *iter)
 {
     g_input.keyboard = SDL_GetKeyboardState(NULL);
 
-    g_input.xAxis = g_input.keyboard[KEY_LEFT] ? -1.0f : 0.0f + g_input.keyboard[KEY_RIGHT] ? 1.0f : 0.0f;
-    g_input.yAxis = g_input.keyboard[KEY_JUMP] || g_input.keyboard[KEY_JUMP_ALT] ? 1.0f : 0.0f;
+    g_input.xAxis = INPUT_LEFT ? -1.0f : 0.0f + INPUT_RIGHT ? 1.0f : 0.0f;
+    g_input.yAxis = (INPUT_JUMP || INPUT_JUMP_ALT) ? 1.0f : 0.0f;
 
     float oldX = g_input.mouseX;
     float oldY = g_input.mouseY;
@@ -30,7 +31,7 @@ static void InputUpdate(ecs_iter_t *iter)
     g_input.mouseDeltaY = g_input.mouseY - oldY;
 }
 
-extern void InitializeInputSystem(void)
+void InitializeInputSystem(void)
 {
     LogInfo("Initializing input system");
 
@@ -38,6 +39,14 @@ extern void InitializeInputSystem(void)
 
     ECS_SYSTEM(g_world, InputUpdate, EcsPreUpdate);
 #ifdef GAME_DEBUG
-    //ECS_SYSTEM(g_world, InputDebug, EcsOnUpdate);
+    // ECS_SYSTEM(g_world, InputDebug, EcsOnUpdate);
 #endif
+}
+
+void MouseWorldPosition(f32 *x, f32 *y)
+{
+    // window -> world position
+    *x = g_input.mouseX / g_width * GAME_WIDTH / SPRITE_SIZE + g_camera.x;
+    *y = g_input.mouseY / g_height * GAME_HEIGHT / SPRITE_SIZE + g_camera.y;
+    LogDebug("%f %f", *x, *y);
 }

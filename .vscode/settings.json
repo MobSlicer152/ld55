@@ -3,6 +3,9 @@
         "*.h": "c",
         "system_error": "c",
         "iterator": "cpp",
-        "xiosbase": "c"
+        "xiosbase": "c",
+        "chrono": "c",
+        "xlocale": "c",
+        "thread": "c"
     }
 }

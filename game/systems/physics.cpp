@@ -47,30 +47,27 @@ static void Shutdown(void)
 // TODO: make this work, and less janky
 class CPhysicsDebugDraw : public b2Draw
 {
-    SDL_FPoint *ConvertAndProjectVertices(const b2Vec2 *inputVertices, s32 count, const b2Color &color)
+    static void ConvertAndProjectVertices(const b2Vec2 *inputVertices, s32 count, SDL_FPoint *vertices, s32 outCount,
+                                          const b2Color &color)
     {
-        static SDL_FPoint vertices[6];
-
-        for (s32 i = 0; i < count; i++)
+        for (s32 i = 0; i < count && i < outCount; i++)
         {
             vertices[i].x = inputVertices[i].x;
             vertices[i].y = inputVertices[i].y;
             TRANSFORM transform = {vertices[i].x, vertices[i].y};
-            CameraProject(nullptr, &transform,
-                          &vertices[i].x, &vertices[i].y, nullptr, nullptr);
+            CameraProject(nullptr, &transform, &vertices[i].x, &vertices[i].y, nullptr, nullptr);
 
-            //vertices[i].color.r = color.r;
-            //vertices[i].color.g = color.g;
-            //vertices[i].color.b = color.b;
-            //vertices[i].color.a = color.a;
+            // vertices[i].color.r = color.r;
+            // vertices[i].color.g = color.g;
+            // vertices[i].color.b = color.b;
+            // vertices[i].color.a = color.a;
         }
-
-        return vertices;
     }
 
     void DrawPolygon(const b2Vec2 *vertices, s32 vertexCount, const b2Color &color) override
     {
-        SDL_FPoint *convertedVertices = ConvertAndProjectVertices(vertices, vertexCount, color);
+        SDL_FPoint convertedVertices[6];
+        ConvertAndProjectVertices(vertices, vertexCount, convertedVertices, ARRAYSIZE(convertedVertices), color);
         SDL_SetRenderDrawColorFloat(g_renderer, color.r, color.g, color.b, color.a);
         SDL_RenderLines(g_renderer, (SDL_FPoint *)convertedVertices, vertexCount);
     }
@@ -182,7 +179,7 @@ extern "C" void CreatePhysicsBody(PPHYSICS_BODY body, f32 x, f32 y, PHYSICS_BODY
 
 extern "C" void ApplyForceToPhysicsBody(PCPHYSICS_BODY body, f32 xSpeed, f32 ySpeed)
 {
-    ((b2Body *)body->body)->ApplyForceToCenter(b2Vec2(xSpeed, ySpeed), true);
+    ((b2Body *)body->body)->ApplyLinearImpulseToCenter(b2Vec2(xSpeed, ySpeed), true);
 }
 
 extern "C" void GetPhysicsBodyVelocity(PCPHYSICS_BODY body, f32 *x, f32 *y)

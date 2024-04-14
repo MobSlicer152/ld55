@@ -5,7 +5,14 @@
 BEGIN_EXTERN_C
 
 #define MAKETAG(type, name, ...) typedef type name __VA_ARGS__ name, *P##name; typedef type name const *PC##name;
-#define MAKECOMPONENT(name, ...) MAKETAG(struct, name, __VA_ARGS__) extern ECS_COMPONENT_DECLARE(name);
+#define MAKECOMPONENT(type, name, ...) MAKETAG(type, name, __VA_ARGS__) extern ECS_COMPONENT_DECLARE(name);
+
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define CLAMP(value, min, max) ((value) > (max) ? (max) : (value) < (min) ? (min) : (value))
+
+#define WRAPPED_ADD(value, add, min, max) ((value) = CLAMP(((value) + 1) % (max), (min), (max)))
+#define WRAPPED_INCREMENT(value, min, max) WRAPPED_ADD((value), 1, (min), (max))
 
 // winnt.h defines this as the same thing but can't leave that up to chance
 #undef ARRAYSIZE
@@ -19,6 +26,8 @@ extern dstr FormatVa(cstr message, va_list args);
 
 extern void Error(cstr message, ...);
 
+extern f32 Magnitude(f32 x, f32 y);
+extern void Normalize(f32 *x, f32 *y);
 extern f32 Lerp(f32 current, f32 target, f32 deltaTime);
 
 #define ECS_SYSTEM_DEFINE_EX(world, id_, phase, multi_threaded_, interval_, ...)                                       \
