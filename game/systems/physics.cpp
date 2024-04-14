@@ -5,6 +5,7 @@
 
 #include "game/globals/misc.h"
 
+#include "camera.h"
 #include "physics.h"
 
 #define WORLD ((b2World *)g_physicsWorld)
@@ -12,6 +13,11 @@
 static void PhysicsUpdate(ecs_iter_t *iter)
 {
     WORLD->Step(iter->delta_system_time, 6, 2);
+}
+
+static void PhysicsDebugDraw(ecs_iter_t *iter)
+{
+    WORLD->DebugDraw();
 }
 
 static void PhysicsUpdateBody(ecs_iter_t *iter)
@@ -37,6 +43,77 @@ static void Shutdown(void)
     delete g_physicsWorld;
 }
 
+#ifdef GAME_DEBUG
+// TODO: make this work, and less janky
+class CPhysicsDebugDraw : public b2Draw
+{
+    SDL_FPoint *ConvertAndProjectVertices(const b2Vec2 *inputVertices, s32 count, const b2Color &color)
+    {
+        SDL_FPoint *vertices = (SDL_FPoint *)CALLOC(count, sizeof(SDL_FPoint));
+        if (!vertices)
+        {
+            Error("failed to convert debug draw vertices");
+        }
+
+        for (s32 i = 0; i < count; i++)
+        {
+            vertices[i].x = inputVertices[i].x;
+            vertices[i].y = inputVertices[i].y;
+            TRANSFORM transform = {vertices[i].x, vertices[i].y};
+            CameraProject(nullptr, &transform,
+                          &vertices[i].x, &vertices[i].y, nullptr, nullptr);
+
+            //vertices[i].color.r = color.r;
+            //vertices[i].color.g = color.g;
+            //vertices[i].color.b = color.b;
+            //vertices[i].color.a = color.a;
+        }
+
+        return vertices;
+    }
+
+    void DrawPolygon(const b2Vec2 *vertices, s32 vertexCount, const b2Color &color) override
+    {
+        SDL_FPoint *convertedVertices = ConvertAndProjectVertices(vertices, vertexCount, color);
+        SDL_SetRenderDrawColorFloat(g_renderer, color.r, color.g, color.b, color.a);
+        SDL_RenderLines(g_renderer, (SDL_FPoint *)convertedVertices, vertexCount);
+        FREE(convertedVertices);
+    }
+
+    void DrawSolidPolygon(const b2Vec2 *vertices, s32 vertexCount, const b2Color &color) override
+    {
+        DrawPolygon(vertices, vertexCount, color);
+    }
+
+    void DrawCircle(const b2Vec2 &center, f32 radius, const b2Color &color) override
+    {
+        SDL_SetRenderDrawColorFloat(g_renderer, color.r, color.g, color.b, color.a);
+    }
+
+    void DrawSolidCircle(const b2Vec2 &center, f32 radius, const b2Vec2 &axis, const b2Color &color) override
+    {
+        SDL_SetRenderDrawColorFloat(g_renderer, color.r, color.g, color.b, color.a);
+        // SDL_Render
+    }
+
+    void DrawSegment(const b2Vec2 &p1, const b2Vec2 &p2, const b2Color &color) override
+    {
+        SDL_SetRenderDrawColorFloat(g_renderer, color.r, color.g, color.b, color.a);
+        SDL_RenderLine(g_renderer, p1.x, p1.y, p2.x, p2.y);
+    }
+
+    void DrawTransform(const b2Transform &xf) override
+    {
+    }
+
+    void DrawPoint(const b2Vec2 &p, f32 size, const b2Color &color) override
+    {
+    }
+};
+
+static CPhysicsDebugDraw debugDraw;
+#endif
+
 extern "C" void InitializePhysicsSystem(void)
 {
     LogInfo("Initializing physics system");
@@ -50,7 +127,14 @@ extern "C" void InitializePhysicsSystem(void)
     ECS_SYSTEM_EX(g_world, PhysicsUpdate, EcsOnUpdate, true, PHYSICS_INTERVAL);
     ECS_SYSTEM(g_world, PhysicsUpdateBody, EcsOnUpdate, PHYSICS_BODY);
 
-    ecs_atfini(g_world, (ecs_fini_action_t)Shutdown, NULL);
+#ifdef GAME_DEBUG
+    debugDraw.SetFlags(CPhysicsDebugDraw::e_shapeBit);
+    WORLD->SetDebugDraw((b2Draw *)&debugDraw);
+
+    ECS_SYSTEM(g_world, PhysicsDebugDraw, EcsPostUpdate);
+#endif
+
+    ecs_atfini(g_world, (ecs_fini_action_t)Shutdown, nullptr);
 }
 
 static void AddCollider(b2Body *body, PCPHYSICS_COLLIDER_DESC collider)
@@ -62,7 +146,8 @@ static void AddCollider(b2Body *body, PCPHYSICS_COLLIDER_DESC collider)
     {
     case PhysicsColliderShapeRect: {
         b2PolygonShape rectShape;
-        rectShape.SetAsBox(collider->width / 2, collider->height / 2, b2Vec2(collider->x, collider->y), 0.0f);
+        rectShape.SetAsBox(collider->width / 2, collider->height / 2, b2Vec2(collider->x, collider->y),
+                           collider->zRotation * DEG2RAD);
         // rectShape.ComputeMass(&massData, );
         body->CreateFixture(&rectShape, collider->mass / collider->width * collider->height);
         break;

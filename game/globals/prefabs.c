@@ -51,8 +51,10 @@ void CreateLevel(void)
         ecs_add(g_world, PART_##id, LEVEL);                                                                            \
     }
 
-    PART(ground, &s_ground, -8.0f, -10.0f, 0.0f, Static, Rect);
-    PART(ground2, &s_ground, 8.0f, -10.0f, 0.0f, Static, Rect);
+    PART(ceiling, &s_ground, 0.0f, 7.5f, 0.0f, Static, Rect);
+    PART(ground, &s_ground, 0.0f, -7.5f, 0.0f, Static, Rect);
+    PART(wall, &s_wall, 8.5f, 0.0f, 0.0f, Static, Rect);
+    PART(wall2, &s_wall, -8.5f, 0.0f, 0.0f, Static, Rect);
 
     g_player = CreatePlayer(0.0f, 0.0f);
 

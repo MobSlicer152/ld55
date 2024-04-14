@@ -9,5 +9,6 @@ BEGIN_EXTERN_C
 extern const SPRITE s_player;
 extern const SPRITE s_cursor;
 extern const SPRITE s_ground;
+extern const SPRITE s_wall;
 
 END_EXTERN_C

@@ -6,7 +6,9 @@
 
 BEGIN_EXTERN_C
 
-#define PI 3.14159265359
+#define PI (3.14159265359)
+#define DEG2RAD (PI / 180)
+#define RAD2DEG (180 / PI)
 
 extern SDL_Storage *g_storage;
 

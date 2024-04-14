@@ -60,6 +60,16 @@ static void RenderDrawDynamicSprite(ecs_iter_t *iter)
     }
 }
 
+static void RenderDrawPhysicsDebug(ecs_iter_t *iter)
+{
+    PCPHYSICS_BODY bodies = ecs_field(iter, PHYSICS_BODY, 1);
+
+    for (s32 i = 0; i < iter->count; i++)
+    {
+        
+    }
+}
+
 static void RenderDrawCursor(ecs_iter_t *iter)
 {
     DrawSprite(
