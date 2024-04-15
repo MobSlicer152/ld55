@@ -2,6 +2,7 @@
 
 #include "config.h"
 
+#include "float.h"
 #include <inttypes.h>
 #include <stdarg.h>
 #include <stdbool.h>

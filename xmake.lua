@@ -16,7 +16,8 @@ else
 end
 set_strip("all")
 
-set_languages("clatest")
+set_languages("clatest", "cxxlatest")
+set_exceptions("cxx")
 
 add_defines("USE_MIMALLOC=1")
 

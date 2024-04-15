@@ -13,6 +13,7 @@
 
 #include "systems/animation.h"
 #include "systems/camera.h"
+#include "systems/cooldown.h"
 #include "systems/discord.h"
 #include "systems/input.h"
 #include "systems/physics.h"
@@ -56,6 +57,7 @@ s32 SDL_main(s32 argc, char *argv[])
     InitializeInputSystem();
     InitializePlayerSystem();
     InitializeCameraSystem();
+    InitializeCooldownSystem();
     InitializeDiscordSystem();
 
     LoadQoiImage("sprites.qoi", &g_spriteSheet);

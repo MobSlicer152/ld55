@@ -44,7 +44,7 @@ static struct LOG_STATE
 
 static const char *LevelStrings[] = {"TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"};
 
-#if !(defined PURPL_SWITCH && !defined PURPL_CONSOLE_HOMEBREW)
+#if !(defined GAME_SWITCH && !defined GAME_CONSOLE_HOMEBREW)
 #ifdef LOG_USE_COLOR
 static const char *LevelColours[] = {"\x1b[38;5;197m", "\x1b[36m", "\x1b[32m", "\x1b[33m", "\x1b[31m", "\x1b[35m"};
 #endif
@@ -224,11 +224,11 @@ void LogMessage(LOG_LEVEL Level, const char *File, uint64_t Line, bool HexLine, 
         InitEvent(&Event, stderr);
         va_start(Event.ArgList, Format);
 
-#if !(defined PURPL_SWITCH && !defined PURPL_CONSOLE_HOMEBREW)
+#if !(defined GAME_SWITCH && !defined GAME_CONSOLE_HOMEBREW)
         StdoutCallback(&Event);
 #endif
 
-#ifdef PURPL_HAVE_PLATPRINT
+#ifdef _WIN32
         PlatPrintCallback(&Event);
 #endif
 

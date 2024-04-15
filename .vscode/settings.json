@@ -6,6 +6,7 @@
         "xiosbase": "c",
         "chrono": "c",
         "xlocale": "c",
-        "thread": "c"
+        "thread": "c",
+        "utility": "c"
     }
 }

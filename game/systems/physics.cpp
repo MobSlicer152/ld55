@@ -23,17 +23,23 @@ static void PhysicsDebugDraw(ecs_iter_t *iter)
 static void PhysicsUpdateBody(ecs_iter_t *iter)
 {
     PPHYSICS_BODY bodies = ecs_field(iter, PHYSICS_BODY, 1);
+    PPOSITION positions = ecs_field(iter, POSITION, 2);
 
     for (s32 i = 0; i < iter->count; i++)
     {
-        b2Body *body = (b2Body *)bodies[i].body;
-        bodies[i].xSpeed = body->GetLinearVelocity().x;
-        bodies[i].ySpeed = body->GetLinearVelocity().y;
-        bodies[i].transform.x = body->GetPosition().x;
-        bodies[i].transform.y = body->GetPosition().y;
-        bodies[i].transform.zRotation = body->GetAngle();
-        bodies[i].transform.xScale = 1.0f;
-        bodies[i].transform.yScale = 1.0f;
+        if (bodies[i].type != PhysicsBodyTypeStatic)
+        {
+            b2Body *body = (b2Body *)bodies[i].body;
+            bodies[i].xSpeed = body->GetLinearVelocity().x;
+            bodies[i].ySpeed = body->GetLinearVelocity().y;
+            positions[i].x = body->GetPosition().x;
+            positions[i].y = body->GetPosition().y;
+            PCROTATION rotation = ecs_get(iter->world, iter->entities[i], ROTATION);
+            if (rotation)
+            {
+                body->GetAngle();
+            }
+        }
     }
 }
 
@@ -54,8 +60,8 @@ class CPhysicsDebugDraw : public b2Draw
         {
             vertices[i].x = inputVertices[i].x;
             vertices[i].y = inputVertices[i].y;
-            TRANSFORM transform = {vertices[i].x, vertices[i].y};
-            CameraProject(nullptr, &transform, &vertices[i].x, &vertices[i].y, nullptr, nullptr);
+            POSITION position = {vertices[i].x, vertices[i].y};
+            CameraProject(nullptr, &position, &vertices[i].x, &vertices[i].y, nullptr, nullptr);
 
             // vertices[i].color.r = color.r;
             // vertices[i].color.g = color.g;
@@ -117,7 +123,7 @@ extern "C" void InitializePhysicsSystem(void)
     }
 
     ECS_SYSTEM_EX(g_world, PhysicsUpdate, EcsOnUpdate, true, PHYSICS_INTERVAL);
-    ECS_SYSTEM(g_world, PhysicsUpdateBody, EcsOnUpdate, PHYSICS_BODY);
+    ECS_SYSTEM(g_world, PhysicsUpdateBody, EcsOnUpdate, PHYSICS_BODY, POSITION);
 
 #ifdef GAME_DEBUG
     debugDraw.SetFlags(CPhysicsDebugDraw::e_shapeBit);

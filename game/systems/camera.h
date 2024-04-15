@@ -15,7 +15,7 @@ MAKETAG(struct, CAMERA,
 })
 
 extern void InitializeCameraSystem(void);
-extern void CameraProject(PCSPRITE sprite, PCTRANSFORM transform, f32 *outX, f32 *outY, f32 *outWidth, f32 *outHeight);
-extern bool CameraVisible(PCSPRITE sprite, PCTRANSFORM transform);
+extern void CameraProject(PCSPRITE sprite, PCPOSITION position, f32 *outX, f32 *outY, f32 *outWidth, f32 *outHeight);
+extern bool CameraVisible(PCSPRITE sprite, PCPOSITION position);
 
 END_EXTERN_C

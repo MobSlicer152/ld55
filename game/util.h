@@ -2,7 +2,12 @@
 
 #include "game.h"
 
+#include "globals/constants.h"
+
 BEGIN_EXTERN_C
+
+#define DEG2RAD (PI / 180)
+#define RAD2DEG (180 / PI)
 
 #define MAKETAG(type, name, ...) typedef type name __VA_ARGS__ name, *P##name; typedef type name const *PC##name;
 #define MAKECOMPONENT(type, name, ...) MAKETAG(type, name, __VA_ARGS__) extern ECS_COMPONENT_DECLARE(name);
@@ -11,6 +16,7 @@ BEGIN_EXTERN_C
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define CLAMP(value, min, max) ((value) > (max) ? (max) : (value) < (min) ? (min) : (value))
 
+// my brain can't simplify this macro right now, but it surely is possible
 #define WRAPPED_ADD(value, add, min, max) ((value) = CLAMP(((value) + 1) % (max), (min), (max)))
 #define WRAPPED_INCREMENT(value, min, max) WRAPPED_ADD((value), 1, (min), (max))
 

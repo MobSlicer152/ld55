@@ -8,14 +8,14 @@
 static bool connected;
 static DiscordUser user;
 
-static void Ready(const DiscordUser *NewUser)
+static void DiscordReady(const DiscordUser *NewUser)
 {
     user = *NewUser;
     connected = true;
     LogDebug("Discord connected as %s (%s)", user.username, user.userId);
 }
 
-static void Disconnected(s32 error, cstr message)
+static void DiscordDisconnected(s32 error, cstr message)
 {
     connected = false;
     memset(&user, 0, sizeof(DiscordUser));
@@ -49,7 +49,7 @@ static bool IsFriend(u64 Id)
     return false;
 }
 
-static cstr GetGameString()
+static cstr DiscordGetGameString()
 {
     u64 userId = strtoll(user.userId ? user.userId : "", NULL, 10);
     switch (userId)
@@ -81,7 +81,7 @@ static void DiscordUpdate(_In_ ecs_iter_t *iter)
     DiscordRichPresence presence = {0};
     presence.state = state;
 #ifdef GAME_DEBUG
-    snprintf(state, ARRAYSIZE(state), "Testing %s on %s", GetGameString(), SDL_GetPlatform());
+    snprintf(state, ARRAYSIZE(state), "Testing %s on %s", DiscordGetGameString(), SDL_GetPlatform());
 #else
     snprintf(state, ARRAYSIZE(state), "Playing %son %s", GetGameString(), SDL_GetPlatform());
 #endif
@@ -95,12 +95,12 @@ static void DiscordUpdate(_In_ ecs_iter_t *iter)
     Discord_RunCallbacks();
 }
 
-static void Shutdown(void)
+static void DiscordShutdown(void)
 {
     LogInfo("Shutting down Discord");
     Discord_ClearPresence();
     Discord_Shutdown();
-    Disconnected(0, NULL);
+    DiscordDisconnected(0, NULL);
 }
 
 void InitializeDiscordSystem(void)
@@ -108,12 +108,12 @@ void InitializeDiscordSystem(void)
     LogInfo("Attempting to initialize Discord");
 
     DiscordEventHandlers eventHandlers = {0};
-    eventHandlers.ready = Ready;
-    eventHandlers.disconnected = Disconnected;
-    eventHandlers.errored = Disconnected;
+    eventHandlers.ready = DiscordReady;
+    eventHandlers.disconnected = DiscordDisconnected;
+    eventHandlers.errored = DiscordDisconnected;
     Discord_Initialize(GAME_DISCORD_APP_ID, &eventHandlers, true, NULL);
 
     ECS_SYSTEM_EX(g_world, DiscordUpdate, EcsOnUpdate, false, DISCORD_INTERVAL);
 
-    ecs_atfini(g_world, (ecs_fini_action_t)Shutdown, NULL);
+    ecs_atfini(g_world, (ecs_fini_action_t)DiscordShutdown, NULL);
 }

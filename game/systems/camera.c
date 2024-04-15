@@ -7,9 +7,9 @@
 
 static void CameraFollowPlayer(ecs_iter_t *iter)
 {
-    PCPHYSICS_BODY body = ecs_get(g_world, g_player, PHYSICS_BODY);
-    g_camera.x = body->transform.x;
-    g_camera.y = body->transform.y;
+    PCPOSITION position = ecs_get(g_world, g_player, POSITION);
+    g_camera.x = position->x;
+    g_camera.y = position->y;
 }
 
 void InitializeCameraSystem(void)
@@ -22,18 +22,23 @@ void InitializeCameraSystem(void)
     ECS_SYSTEM(g_world, CameraFollowPlayer, EcsOnUpdate);
 }
 
-void CameraProject(PCSPRITE sprite, PCTRANSFORM transform, f32 *outX, f32 *outY, f32 *outWidth, f32 *outHeight)
+void CameraProject(PCSPRITE sprite, PCPOSITION position, f32 *outX, f32 *outY, f32 *outWidth, f32 *outHeight)
 {
+    f32 centerX = 0.0f;
+    f32 centerY = 0.0f;
+
     if (sprite)
     {
         // scale
-        *outWidth = sprite->width * SPRITE_SIZE * transform->xScale;
-        *outHeight = sprite->height * SPRITE_SIZE * transform->yScale;
+        *outWidth = sprite->width * SPRITE_SIZE;
+        *outHeight = sprite->height * SPRITE_SIZE;
+        centerX = *outWidth / 2;
+        centerY = *outHeight / 2;
     }
 
     // make relative to camera
-    f32 cameraX = (transform->x - g_camera.x) * SPRITE_SIZE - (sprite ? *outWidth / 2 : 0);
-    f32 cameraY = (transform->y - g_camera.y) * SPRITE_SIZE + (sprite ? *outHeight / 2 : 0);
+    f32 cameraX = (position->x - g_camera.x) * SPRITE_SIZE - centerX;
+    f32 cameraY = (position->y - g_camera.y) * SPRITE_SIZE + centerY;
 
     // get top-left relative for screen
     // https://math.stackexchange.com/questions/1896656/how-do-i-convert-coordinates-from-bottom-left-as-0-0-to-middle-as-0-0
@@ -41,13 +46,13 @@ void CameraProject(PCSPRITE sprite, PCTRANSFORM transform, f32 *outX, f32 *outY,
     *outY = -cameraY + GAME_HEIGHT / 2;
 }
 
-bool CameraVisible(PCSPRITE sprite, PCTRANSFORM transform)
+bool CameraVisible(PCSPRITE sprite, PCPOSITION position)
 {
     f32 x = 0.0f;
     f32 y = 0.0f;
     f32 width = 0.0f;
     f32 height = 0.0f;
-    CameraProject(sprite, transform, &x, &y, &width, &height);
+    CameraProject(sprite, position, &x, &y, &width, &height);
 
     return (x + width) / 2 > -(GAME_WIDTH / 2) && (x - width) / 2 < (GAME_WIDTH / 2) &&
            (y + height) / 2 > -(GAME_HEIGHT / 2) && (y - height) / 2 < (GAME_HEIGHT / 2);

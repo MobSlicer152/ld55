@@ -29,6 +29,7 @@ MAKETAG(struct, PHYSICS_COLLIDER_DESC, {
     f32 height;
 
     f32 mass;
+    f32 restitution;
 
     union {
         struct
