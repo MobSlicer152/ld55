@@ -83,7 +83,7 @@ static void DiscordUpdate(_In_ ecs_iter_t *iter)
 #ifdef GAME_DEBUG
     snprintf(state, ARRAYSIZE(state), "Testing %s on %s", DiscordGetGameString(), SDL_GetPlatform());
 #else
-    snprintf(state, ARRAYSIZE(state), "Playing %son %s", GetGameString(), SDL_GetPlatform());
+    snprintf(state, ARRAYSIZE(state), "Playing %son %s", DiscordGetGameString(), SDL_GetPlatform());
 #endif
     presence.details = details;
     snprintf(details, ARRAYSIZE(details),
