@@ -16,8 +16,6 @@ static void MouseWorldPosition(f32 *x, f32 *y)
     // window top left -> window center -> screen -> world position
     *x = (g_input.mouseX * 2 - g_width / 2) / g_width * GAME_WIDTH / SPRITE_SIZE;
     *y = -(g_input.mouseY * 2 - g_height / 2) / g_height * GAME_HEIGHT / SPRITE_SIZE;
-    LogDebug("%f %f", g_input.mouseX, g_input.mouseY);
-    LogDebug("%f %f", *x, *y);
 }
 
 static void InputUpdate(ecs_iter_t *iter)

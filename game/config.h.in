@@ -1,4 +1,4 @@
-#define GAME_NAME "Ludum Dare 55 game"
+#define GAME_NAME "Press V to Summon"
 #define GAME_EXECUTABLE_NAME "ld55"
 
 #define GAME_ORGANIZATION "MobSlicer152"

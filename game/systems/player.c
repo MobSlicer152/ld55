@@ -61,7 +61,7 @@ static void HandlePlayerInput(ecs_iter_t *iter)
 
     if (player->projectileSwitchCooldown < 0.0f && INPUT_SWITCH_PROJECTILE)
     {
-        WRAPPED_INCREMENT(player->activeProjectileType, 0, ProjectileTypeCount);
+        WRAPPED_INCREMENT(player->activeProjectileType, 0, ProjectileTypeCount - 1);
         player->projectileSwitchCooldown = PLAYER_PROJECTILE_SWITCH_COOLDOWN;
     }
 

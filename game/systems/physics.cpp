@@ -180,6 +180,7 @@ extern "C" void CreatePhysicsBody(PPHYSICS_BODY body, f32 x, f32 y, PHYSICS_BODY
         AddCollider(bodyReal, &colliders[i]);
     }
 
+    body->type = type;
     body->body = bodyReal;
 }
 

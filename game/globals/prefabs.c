@@ -1,4 +1,5 @@
 #include "game/components.h"
+#include "game/log.h"
 
 #include "game/systems/physics.h"
 #include "game/systems/player.h"
@@ -30,6 +31,8 @@ ecs_entity_t CreatePlayer(f32 x, f32 y)
 
     PPLAYER player = ecs_emplace(g_world, entity, PLAYER);
     memset(player, 0, sizeof(PLAYER));
+
+    LogDebug("Created player with ID %llu", entity);
 
     return entity;
 }
@@ -116,18 +119,20 @@ void CreateLevel(void)
     {                                                                                                                  \
         ecs_entity_t PART_##id = ecs_new_entity(g_world, #id);                                                         \
         ecs_set_ptr(g_world, PART_##id, SPRITE, (sprite));                                                             \
-        PHYSICS_COLLIDER_DESC desc = {                                                                                 \
+        PHYSICS_COLLIDER_DESC PART_##id##_desc = {                                                                     \
             .zRotation = (rotation),                                                                                   \
             .width = (sprite)->width,                                                                                  \
             .height = (sprite)->height,                                                                                \
             .shape = PhysicsColliderShape##shape_,                                                                     \
             .allowCollision = true,                                                                                    \
         };                                                                                                             \
-        PPHYSICS_BODY body = ecs_emplace(g_world, PART_##id, PHYSICS_BODY);                                            \
-        CreatePhysicsBody(body, (x), (y), PhysicsBodyType##type, false, &desc, 1);                                     \
-        ecs_set_ptr(g_world, PART_##id, PHYSICS_BODY, &body);                                                          \
+        PPHYSICS_BODY PART_##id##_body = ecs_emplace(g_world, PART_##id, PHYSICS_BODY);                                \
+        CreatePhysicsBody(PART_##id##_body, (x), (y), PhysicsBodyType##type, true, &PART_##id##_desc, 1);              \
+        ecs_set_ptr(g_world, PART_##id, PHYSICS_BODY, &PART_##id##_body);                                              \
         ecs_set(g_world, PART_##id, POSITION, {(x), (y)});                                                             \
         ecs_add(g_world, PART_##id, LEVEL);                                                                            \
+                                                                                                                       \
+        LogDebug("Created part " #id " with ID %llu", PART_##id);                                                      \
     }
 
     PART(ground, &s_ground, -8.0f, -7.5f, 0.0f, Static, Rect);
