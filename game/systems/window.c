@@ -38,7 +38,9 @@ void InitializeWindowSystem(void)
 {
     LogInfo("Initializing window system");
 
-    g_window = SDL_CreateWindow(GAME_NAME " | Press ESC to quit", 1024, 576, SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_RESIZABLE);
+    g_width = 1024;
+    g_height = 576;
+    g_window = SDL_CreateWindow(GAME_NAME " | Press ESC to quit", g_width, g_height, SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_RESIZABLE);
     if (!g_window)
     {
         Error("failed to create window: %s", SDL_GetError());

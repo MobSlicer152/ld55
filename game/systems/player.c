@@ -46,13 +46,13 @@ static void HandlePlayerInput(ecs_iter_t *iter)
     else
     {
         animation->minFrame = 1;
-        animation->maxFrame = 3;
+        animation->maxFrame = 2;
     }
 
     if (projectileCooldown->value > 0.0f)
     {
-        animation->minFrame += 2;
-        animation->maxFrame += 2;
+        animation->minFrame = 3;
+        animation->maxFrame = 4;
     }
     else if (INPUT_ATTACK)
     {

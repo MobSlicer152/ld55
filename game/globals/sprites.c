@@ -1,7 +1,7 @@
 #include "sprites.h"
 #include "misc.h"
 
-static const SPRITE_OFFSET playerFrames[] = {{0.0f, 0.0f}, {1.0f, 0.0f}, {2.0f, 0.0f}};
+static const SPRITE_OFFSET playerFrames[] = {{0.0f, 0.0f}, {1.0f, 0.0f}, {2.0f, 0.0f}, {3.0f, 0.0f}, {4.0f, 0.0f}};
 const ANIMATED_SPRITE s_player = {&g_spriteSheet, 0.5f, ARRAYSIZE(playerFrames), playerFrames, 1.0f, 2.0f};
 const SPRITE s_cursor = {&g_spriteSheet, {0.0f, 2.0f}, 1.0f, 1.0f};
 const SPRITE s_ground = {&g_spriteSheet, {0.0f, 15.0f}, 16.0f, 1.0f};

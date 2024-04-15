@@ -13,9 +13,10 @@ static void InputDebug(ecs_iter_t *iter)
 
 static void MouseWorldPosition(f32 *x, f32 *y)
 {
-    // window -> world position
-    *x = g_input.mouseX / g_width * GAME_WIDTH / SPRITE_SIZE + g_camera.x;
-    *y = g_input.mouseY / g_height * GAME_HEIGHT / SPRITE_SIZE + g_camera.y;
+    // window top left -> window center -> screen -> world position
+    *x = (g_input.mouseX * 2 - g_width / 2) / g_width * GAME_WIDTH / SPRITE_SIZE;
+    *y = -(g_input.mouseY * 2 - g_height / 2) / g_height * GAME_HEIGHT / SPRITE_SIZE;
+    LogDebug("%f %f", g_input.mouseX, g_input.mouseY);
     LogDebug("%f %f", *x, *y);
 }
 
@@ -53,6 +54,6 @@ void InitializeInputSystem(void)
 
     ECS_SYSTEM(g_world, InputUpdate, EcsPreUpdate);
 #ifdef GAME_DEBUG
-    // ECS_SYSTEM(g_world, InputDebug, EcsOnUpdate);
+    ECS_SYSTEM(g_world, InputDebug, EcsOnUpdate);
 #endif
 }

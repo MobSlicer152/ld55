@@ -29,6 +29,7 @@ ecs_entity_t CreatePlayer(f32 x, f32 y)
     ecs_set(g_world, entity, PROJECTILE_COOLDOWN, {0.0f});
 
     PPLAYER player = ecs_emplace(g_world, entity, PLAYER);
+    memset(player, 0, sizeof(PLAYER));
 
     return entity;
 }
@@ -39,7 +40,7 @@ static const f32 projectileDamage[ProjectileTypeCount] = {
     50.0f, // energy
 };
 static const f32 projectileCooldown[ProjectileTypeCount] = {
-    0.2f, // fireball
+    0.4f, // fireball
     0.7f, // saw
     2.0f, // energy
 };
@@ -81,8 +82,13 @@ ecs_entity_t CreateProjectile(ecs_entity_t owner, PROJECTILE_TYPE type, f32 targ
 
     PCPOSITION ownerPosition = ecs_get(g_world, owner, POSITION);
     PCFLIP ownerFlip = ecs_get(g_world, owner, FLIP);
+    PPROJECTILE_COOLDOWN projectileCooldown = ecs_get_mut(g_world, owner, PROJECTILE_COOLDOWN);
+
+    f32 x = ownerPosition->x + 0.5f * copysignf(1.0f, targetX);
+    f32 y = ownerPosition->y;
 
     ecs_entity_t projectile = ecs_new_w_pair(g_world, EcsChildOf, owner);
+    ecs_set_ptr(g_world, projectile, SPRITE, sprite);
     ecs_add(g_world, projectile, POSITION);
     ecs_add(g_world, projectile, ROTATION);
     PPHYSICS_BODY body = ecs_emplace(g_world, projectile, PHYSICS_BODY);
@@ -92,12 +98,14 @@ ecs_entity_t CreateProjectile(ecs_entity_t owner, PROJECTILE_TYPE type, f32 targ
         .mass = mass,
         .restitution = restitution,
     };
-    CreatePhysicsBody(body, ownerPosition->x, ownerPosition->y, PhysicsBodyTypeDynamic, false, &collider, 1);
+    CreatePhysicsBody(body, x, y, PhysicsBodyTypeDynamic, false, &collider, 1);
 
     Normalize(&targetX, &targetY);
     f32 xSpeed = targetX * speed;
     f32 ySpeed = targetY * speed;
     SetPhysicsBodyVelocity(body, xSpeed, ySpeed);
+
+    projectileCooldown->value = cooldown;
 
     return projectile;
 }
