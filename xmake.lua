@@ -19,18 +19,23 @@ set_strip("all")
 set_languages("clatest", "cxxlatest")
 set_exceptions("cxx")
 
-add_defines("USE_MIMALLOC=1")
+if not is_plat("wasm") then
+    add_defines("USE_MIMALLOC=1")
+end
 
 add_repositories("local-repo xmake")
 add_requires(
-    "box2d",
+    "box2d-wasm",
     "flecs",
     "libsdl3",
-    "mimalloc",
     "qoi",
     "rapidjson",
     "stb"
 )
+
+if not is_plat("wasm") then
+    add_requires("mimalloc")
+end
 
 add_includedirs(
     "$(scriptdir)",
