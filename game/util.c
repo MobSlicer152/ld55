@@ -4,9 +4,9 @@
 
 void OpenStorage(void)
 {
-    dstr path = Format("%sassets", SDL_GetBasePath());
-    LogInfo("Opening storage %s", path);
+    cstr path = "assets";
 
+    LogInfo("Opening storage in %s", path);
     g_storage = SDL_OpenFileStorage(path);
     if (!g_storage)
     {
@@ -18,8 +18,6 @@ void OpenStorage(void)
         LogInfo("Waiting 1 second for storage");
         SDL_Delay(1000);
     }
-
-    FREE(path);
 }
 
 u8 *Read(cstr path, u64 *size)

@@ -21,7 +21,7 @@
 #include "systems/render.h"
 #include "systems/window.h"
 
-s32 SDL_main(s32 argc, char *argv[])
+s32 main(s32 argc, char *argv[])
 {
 #ifdef GAME_DEBUG
     LogSetLevel(LogLevelDebug);

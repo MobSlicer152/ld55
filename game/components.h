@@ -27,7 +27,7 @@ MAKECOMPONENT(struct, PHYSICS_BODY, {
     void *body;
     f32 xSpeed;
     f32 ySpeed;
-    enum PHYSICS_BODY_TYPE type;
+    u32 type;
 })
 
 MAKECOMPONENT(struct, HEALTH, { f32 value; })

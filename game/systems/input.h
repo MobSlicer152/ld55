@@ -39,6 +39,5 @@ MAKETAG(struct, INPUT_STATE, {
 #define INPUT_QUIT MAKE_KEY(SDL_SCANCODE_ESCAPE)
 
 extern void InitializeInputSystem(void);
-extern void MouseWorldPosition(f32 *x, f32 *y);
 
 END_EXTERN_C

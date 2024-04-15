@@ -157,7 +157,7 @@ void LogSetLevel(LOG_LEVEL Level)
 }
 
 LOG_LEVEL
-LogGetLevel(VOID)
+LogGetLevel(void)
 {
     return LogState.Level;
 }

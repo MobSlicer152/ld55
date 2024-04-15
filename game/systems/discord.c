@@ -70,7 +70,7 @@ static cstr DiscordGetGameString()
     }
 }
 
-static void DiscordUpdate(_In_ ecs_iter_t *iter)
+static void DiscordUpdate(ecs_iter_t *iter)
 {
     SDL_RendererInfo rendererInfo = {0};
     SDL_GetRendererInfo(g_renderer, &rendererInfo);

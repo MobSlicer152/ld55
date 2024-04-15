@@ -9,8 +9,8 @@ BEGIN_EXTERN_C
 #define DEG2RAD (PI / 180)
 #define RAD2DEG (180 / PI)
 
-#define MAKETAG(type, name, ...) typedef type name __VA_ARGS__ name, *P##name; typedef type name const *PC##name;
-#define MAKECOMPONENT(type, name, ...) MAKETAG(type, name, __VA_ARGS__) extern ECS_COMPONENT_DECLARE(name);
+#define MAKETAG(type_, name, ...) typedef type_ name __VA_ARGS__ name, *P##name; typedef type_ name const *PC##name;
+#define MAKECOMPONENT(type_, name, ...) MAKETAG(type_, name, __VA_ARGS__) extern ECS_COMPONENT_DECLARE(name);
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) > (b) ? (a) : (b))

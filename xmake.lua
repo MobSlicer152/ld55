@@ -73,9 +73,10 @@ target("game")
 
     add_deps("discord")
     add_packages(
-        "box2d",
+        "box2d-wasm",
         "flecs",
         "libsdl3",
+	"libsdl3-main",
         "mimalloc",
         "qoi",
         "stb"
